@@ -10,17 +10,84 @@
 		<meta name="description" content="The Garden of Earthly Delights">
 
 		<link rel="canonical" href="http://earthlydelights.garden/">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
 		<style type="text/css">
+			html {
+			    height: 100%;
+			    background-color: black;
+			}		
 			body {
 				background: url(https://tebaldi051108trial.hanatrial.ondemand.com/geppaequo-api/images/v1/crop) no-repeat center center fixed; 
 				-webkit-background-size: cover;
 				-moz-background-size: cover;
 				-o-background-size: cover;
 				background-size: cover;
+				font-size: 48px;
+				position: relative;
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+
+			.fa {
+				color: rgba(255, 255, 255, 1);
+			}
+			.fa.light {
+				color: rgba(255, 255, 255, .3);
+				background-color: rgba(0, 0, 0, .3);
+			}
+			.fa:hover {
+				color: rgba(255, 255, 255, .8);
+				background-color: rgba(0, 0, 0, .8);
+			}
+			.fa {
+				position: absolute;
+				margin: 5px 5px 5px 5px;
+				padding: 5px 5px 5px 5px;
+			    cursor: pointer;
+			}
+			.top_right {
+			    top: 0;
+			    right: 0;
+			}
+			.top_left {
+			    top: 0;
+			    left: 0;
+			}
+			.bottom_right {
+			    bottom: 0;
+			    right: 0;
+			}
+			.bottom_left {
+			    bottom: 0;
+			    left: 0;
 			}
 		</style>
 	</head>
 
+	<body>
+		<i class="fa fa-refresh fa-spin top_left"></i>
+		<a href="https://en.wikipedia.org/wiki/The_Garden_of_Earthly_Delights" target="">
+		   <i class="fa fa-file-image-o top_right"></i>
+		</a>
+		<!--i class="fa fa-copyright bottom_left"></i-->
+		
+    
+	</body>
+
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('.fa-refresh').click(function() {
+		    location.reload();
+		});
+	});
+
+	$(window).on("load", function() {
+		$('.fa-refresh').removeClass("fa-spin");
+		$('.fa').addClass("light");
+    });
+	</script>
 
 </html>
