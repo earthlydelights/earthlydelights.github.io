@@ -121,7 +121,9 @@ layout:
 	</head>
 
 	<body style="background-color: transparent;">
-		<div id="waitingForBackend" class="top_center"></div>
+		<div id="waitingForBackend" class="top_center">
+			<div id="clock"></div>
+		</div>
 		<i class="fa fa-refresh fa-spin top_left" title="watch another detail"></i>
 		<i class="fa fa-picture-o top_right"></i>
 {% if jekyll.environment == "development" %}
@@ -136,57 +138,70 @@ layout:
 
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.0/imagesloaded.pkgd.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.1.0/jquery.countdown.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
 	<script type="text/javascript">
 
 {% if jekyll.environment == "development" %}
 	var backend = "http://localhost:8080/geppaequo-web";
+	var millisecondsBeforeRetry = 5000; 
 {% else %}	    	
 	var backend = "https://tebaldi051108trial.hanatrial.ondemand.com";
+	var millisecondsBeforeRetry = 30000;
 {% endif %}
 
 	$(document).ready(function() {
 
-		function callImageLoaded($backgroundHolder) {
+		function callImageLoaded($backgroundHolder, retry) {
 			$backgroundHolder.imagesLoaded( { background: true } )
-			.progress( function( instance, image ) {
-				var result = image.isLoaded ? 'loaded' : 'broken';
-				console.log( 'image is ' + result + ' for ' + image.img.src );
-			})
-			.fail( function() {
-				console.log('all images loaded, at least one is broken');
-			})
-			.done( function( instance ) {
-				console.log('all images successfully loaded');
-			})
-			.always( function( instance ) {
-				$('.fa-refresh').removeClass("fa-spin");
-				$('.fa').addClass("light");
-				$('body').focus();
-				console.log('always');
-			})
+			
+				.progress( function( instance, image ) {
+					var result = image.isLoaded ? 'loaded' : 'broken';
+					console.log( 'image is ' + result + ' for ' + image.img.src );
+				})
+				.fail( function() {
+					if (retry) {
+						var nextTentative = moment().add(millisecondsBeforeRetry, 'milliseconds');
+						console.log('all images loaded, at least one is broken, will retry @ ' + nextTentative.format("h:mm:ss a"));
+						setTimeout(function(){ retry($backgroundHolder); }, millisecondsBeforeRetry);
+						$('#clock').countdown(nextTentative.toDate(), function(event) {
+						   $(this).html(event.strftime('cannot connect to backend server. retrying in %S seconds'));
+						});		
+						$('#waitingForBackend').show();
+					} else {
+  						console.log('all images loaded, at least one is broken');
+					}
+				})
+				.done( function( instance ) {
+					console.log('all images successfully loaded');
+					$('#waitingForBackend').hide();
+				})
+				.always( function( instance ) {
+					$('.fa-refresh').removeClass("fa-spin");
+					$('.fa').addClass("light");
+					$('body').focus();
+				})
 			;
 		}
 
 	    // cf. https://developer.mozilla.org/en-US/docs/Web/CSS/background IS YOUR FRIEND !!!!
 		function loadFullBackground($backgroundHolder) {
+			console.log(moment().format("h:mm:ss a"));
 			$('.fa-refresh').addClass("fa-spin");
-		    var ret = $backgroundHolder.css({
+		    $backgroundHolder.css({
 		    	background: 
 		    	    "url(" + backend + "/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" + 
 		    	    ") center center / contain no-repeat fixed black",
 		    });
-			callImageLoaded($backgroundHolder);
-		    console.log(ret);
+			callImageLoaded($backgroundHolder, loadFullBackground);
 		}
 
 		function loadCroppedBackground($backgroundHolder) {
+			console.log(moment().format("h:mm:ss a"));
 			$('.fa-refresh').addClass("fa-spin");
 		    var cropWidth  = $backgroundHolder.width();
 		    var cropHeight = $backgroundHolder.height();
-
-		    console.log("cropWidth", cropWidth, "cropHeight", cropHeight);
-
-		    var ret = $backgroundHolder.css({
+		    $backgroundHolder.css({
 		    	background: 
 		    	    "url(" + backend + "/geppaequo-api/images/v1/crop" +
 		    		"?url=/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" + 
@@ -195,8 +210,7 @@ layout:
 		    		"&cropHeight=" + cropHeight + 
 		    		") center center / auto no-repeat fixed black",
 		    });
-			callImageLoaded($backgroundHolder);
-		    console.log(ret);
+			callImageLoaded($backgroundHolder, loadCroppedBackground);
 		}
 
 		$( ".fa" ).hover(
