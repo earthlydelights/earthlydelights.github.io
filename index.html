@@ -142,9 +142,8 @@
 		    	url   : 'https://tebaldi051108trial.hanatrial.ondemand.com/favicon.ico',
 		    	cache : false,
 		        crossDomain: true,
-		        method: 'GET',
+		        method: 'HEAD',
 		    }).done(function(data) {
-		       // location.reload();
 		       if (hasFailed) {
 		       	$('body').css({
 		       		background: "url(https://tebaldi051108trial.hanatrial.ondemand.com/geppaequo-api/images/v1/crop?url=/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg) no-repeat center center fixed"
