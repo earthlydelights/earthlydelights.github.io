@@ -123,8 +123,8 @@ layout:
 		</style>
 	</head>
 
-	<body style="background-color: transparent;" tabindex="0"> <!-- to make the div focusable --> 
-		<div id="waitingForBackend">
+	<body style="background-color: transparent;"> 
+		<div id="waitingForBackend"	>
 			<div id="clock"></div>
 		</div>
 		<i class="fa fa-refresh fa-spin top_left" title="watch another detail"></i>
@@ -181,8 +181,7 @@ layout:
 				})
 				.always( function( instance ) {
 					$('.fa-refresh').removeClass("fa-spin");
-					$('.fa').addClass("light");
-					$('body').focus();
+					$('.fa').addClass("light").removeClass( "hover" );
 				})
 			;
 		}
