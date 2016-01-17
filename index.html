@@ -68,13 +68,12 @@ layout:
 
 			.fa {
 				color: rgba(255, 255, 255, 1);
-				position: absolute;
 				margin: 5px 5px 5px 5px;
 				padding: 5px 5px 5px 5px;
 			    cursor: pointer;
 				border-radius: 8px;
 			}
-			.favicon.fa-spin {
+			.fa.fa-refresh.fa-spin {
 				background-color: transparent;
 			}
 			.fa.light {
@@ -90,18 +89,22 @@ layout:
 				background-color: rgba(0, 0, 0, .7);
 			}
 			.top_right {
+				position: absolute;
 			    top: 0;
 			    right: 0;
 			}
 			.top_left {
+				position: absolute;
 			    top: 0;
 			    left: 0;
 			}
 			.bottom_right {
+				position: absolute;
 			    bottom: 0;
 			    right: 0;
 			}
 			.bottom_left {
+				position: absolute;
 			    bottom: 0;
 			    left: 0;
 			}
@@ -115,25 +118,25 @@ layout:
 			}
 			// cf. http://stackoverflow.com/a/24993002/1070215
 			.hover_img a { position:relative; }
-			.hover_img a span { position:absolute; bottom:30px; right:20px; display:none; z-index:200; background-color: rgba(255, 255, 255, .5); border-radius: 8px;}
+			.hover_img a span { position:absolute; bottom:30px; right:20px; display:none; z-index:99; width="50%" background-color: rgba(255, 255, 255, .5); }
 			.hover_img:hover a span { display:block; }
 		</style>
 	</head>
 
-	<body style="background-color: transparent;">
-		<div id="waitingForBackend" class="top_center">
+	<body style="background-color: transparent;" tabindex="0"> <!-- to make the div focusable --> 
+		<div id="waitingForBackend">
 			<div id="clock"></div>
 		</div>
 		<i class="fa fa-refresh fa-spin top_left" title="watch another detail"></i>
-		<i class="fa fa-picture-o top_right"></i>
-{% if jekyll.environment == "development" %}
-		<i class="fa fa-github bottom_left"></i>		
-{% endif %}	    	
-		<i class="fa fa-copyright bottom_right hover_img">
-	    	<a href="https://twitter.com/cthiebaud" target="twitter.com/cthiebaud">
-		      <span><img src="images/christophe.thiebaud.png" alt="image" height="100" /><span>
+		<span class="top_right">
+			<i class="fa fa-picture-o" style="float:right;" title="watch the full painting"></i><br>
+	    	<a href="https://en.wikipedia.org/wiki/The_Garden_of_Earthly_Delights">
+	          <i class="fa fa-info" title="go to wikipedia article" style="float:right;"></i> 	
     		</a>
-		</i>
+		</span>
+    	<a href="https://github.com/earthlydelights/earthlydelights.github.io">
+			<i class="fa fa-github bottom_right" title="go to github project"></i>
+		</a>
 	</body>
 
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -141,7 +144,7 @@ layout:
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.1.0/jquery.countdown.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
 	<script type="text/javascript">
-
+ 
 {% if jekyll.environment == "development" %}
 	var backend = "http://localhost:8080/geppaequo-web";
 	var millisecondsBeforeRetry = 5000; 
@@ -185,12 +188,14 @@ layout:
 		}
 
 	    // cf. https://developer.mozilla.org/en-US/docs/Web/CSS/background IS YOUR FRIEND !!!!
+
 		function loadFullBackground($backgroundHolder) {
 			console.log(moment().format("h:mm:ss a"));
 			$('.fa-refresh').addClass("fa-spin");
 		    $backgroundHolder.css({
 		    	background: 
-		    	    "url(" + backend + "/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" + 
+		    	    "url(" + backend + 
+		    	    "/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" + 
 		    	    ") center center / contain no-repeat fixed black",
 		    });
 			callImageLoaded($backgroundHolder, loadFullBackground);
@@ -203,7 +208,8 @@ layout:
 		    var cropHeight = $backgroundHolder.height();
 		    $backgroundHolder.css({
 		    	background: 
-		    	    "url(" + backend + "/geppaequo-api/images/v1/crop" +
+		    	    "url(" + backend + 
+		    	    "/geppaequo-api/images/v1/crop" +
 		    		"?url=/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" + 
 		    		"&" + (new Date()).getTime() + 
 		    		"&cropWidth=" + cropWidth + 
@@ -220,15 +226,6 @@ layout:
 		    $( ".fa" ).removeClass( "hover" );
 		  }
 		);
-		$( ".fa-copyright" ).hover(
-		  function() {
-		  }, function() {
-		  }
-		);
-
-		$('.fa-github').click(function() {
-			window.location.assign("https://github.com/earthlydelights/earthlydelights.github.io");
-		});
 
 		$(window).on("load", function() {
 			var $backgroundHolder = $('html');
