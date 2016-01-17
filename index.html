@@ -142,6 +142,7 @@
 		    	url         : 'https://tebaldi051108trial.hanatrial.ondemand.com/favicon.ico',
 		        crossDomain : true,
 		        method      : 'HEAD',
+		        timeout     : 5000,
 		    }).done(function(data) {
 		       if (hasFailedatLeastOnce) {
 		       	$('body').css({
