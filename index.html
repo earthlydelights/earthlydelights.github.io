@@ -155,6 +155,15 @@ layout:
 
 	$(document).ready(function() {
 
+	    function displayLoadStart() {
+			console.log(moment().format("h:mm:ss a"));
+			$('#clock').html('');
+			$('.fa-refresh').addClass("fa-spin");
+	    }
+	    function displayLoadFinish() {
+			$('.fa-refresh').removeClass("fa-spin");
+			$('.fa').addClass("light").removeClass( "hover" );
+		}
 		function callImageLoaded($backgroundHolder, retry) {
 			$backgroundHolder.imagesLoaded( { background: true } )
 
@@ -166,9 +175,10 @@ layout:
 					if (retry) {
 						var nextTentative = moment().add(millisecondsBeforeRetry, 'milliseconds');
 						console.log('all images loaded, at least one is broken, will retry @ ' + nextTentative.format("h:mm:ss a"));
-						setTimeout(function(){ retry($backgroundHolder); }, millisecondsBeforeRetry);
 						$('#clock').countdown(nextTentative.toDate(), function(event) {
-						   $(this).html(event.strftime('cannot connect to backend server. retrying in %S seconds'));
+						   $(this).html(event.strftime('Cannot connect to image server, retrying in %S seconds.'));
+						}).on('finish.countdown', function(event) {
+							retry($backgroundHolder); 
 						});		
 						$('#waitingForBackend').show();
 					} else {
@@ -180,8 +190,7 @@ layout:
 					$('#waitingForBackend').hide();
 				})
 				.always( function( instance ) {
-					$('.fa-refresh').removeClass("fa-spin");
-					$('.fa').addClass("light").removeClass( "hover" );
+					displayLoadFinish();
 				})
 			;
 		}
@@ -189,8 +198,8 @@ layout:
 	    // cf. https://developer.mozilla.org/en-US/docs/Web/CSS/background IS YOUR FRIEND !!!!
 
 		function loadFullBackground($backgroundHolder) {
-			console.log(moment().format("h:mm:ss a"));
-			$('.fa-refresh').addClass("fa-spin");
+			displayLoadStart();
+
 		    $backgroundHolder.css({
 		    	background: 
 		    	    "url(images/the-garden-of-earthly-delights.jpg" + 
@@ -200,8 +209,8 @@ layout:
 		}
 
 		function loadCroppedBackground($backgroundHolder) {
-			console.log(moment().format("h:mm:ss a"));
-			$('.fa-refresh').addClass("fa-spin");
+			displayLoadStart();
+
 		    var cropWidth  = $backgroundHolder.width();
 		    var cropHeight = $backgroundHolder.height();
 		    $backgroundHolder.css({
