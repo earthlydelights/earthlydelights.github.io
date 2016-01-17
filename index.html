@@ -115,8 +115,8 @@ layout:
 			}
 			// cf. http://stackoverflow.com/a/24993002/1070215
 			.hover_img a { position:relative; }
-			.hover_img a img { position:absolute; bottom:30px; right:-20px; display:none; z-index:200; background-color: rgba(255, 255, 255, .5); border-radius: 8px;}
-			.hover_img:hover a img { display:block; }
+			.hover_img a span { position:absolute; bottom:30px; right:20px; display:none; z-index:200; background-color: rgba(255, 255, 255, .5); border-radius: 8px;}
+			.hover_img:hover a span { display:block; }
 		</style>
 	</head>
 
@@ -129,7 +129,7 @@ layout:
 {% endif %}	    	
 		<i class="fa fa-copyright bottom_right hover_img">
 	    	<a href="https://twitter.com/cthiebaud" target="twitter.com/cthiebaud">
-		      <img src="images/christophe.thiebaud.png" alt="image" height="100" />
+		      <span><img src="images/christophe.thiebaud.png" alt="image" height="100" /><span>
     		</a>
 		</i>
 	</body>
