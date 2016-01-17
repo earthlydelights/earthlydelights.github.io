@@ -138,10 +138,8 @@ layout:
 	var backend = "https://tebaldi051108trial.hanatrial.ondemand.com";
 {% endif %}	    	
 
-    var $backgroundHolder = $('#backgroundHolder');
-
-    // cf. https://developer.mozilla.org/en-US/docs/Web/CSS/background
-	function loadFullBackground() {
+    // cf. https://developer.mozilla.org/en-US/docs/Web/CSS/background IS YOUR FRIEND !!!!
+	function loadFullBackground($backgroundHolder) {
 	    var ret = $backgroundHolder.css({
 	    	background: 
 	    	    "url(" + backend + "/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" + 
@@ -149,9 +147,11 @@ layout:
 	    });
 	    console.log(ret);
 	}
-	function loadCroppedBackground() {
+	function loadCroppedBackground($backgroundHolder) {
 	    var cropWidth  = $backgroundHolder.width();
 	    var cropHeight = $backgroundHolder.height();
+
+	    console.log("cropWidth", cropWidth, "cropHeight", cropHeight);
 
 	    var ret = $backgroundHolder.css({
 	    	background: 
@@ -166,9 +166,18 @@ layout:
 	}
 
 	$(document).ready(function() {
+		var $backgroundHolder = $('#backgroundHolder');
 
-    	loadCroppedBackground();
+    	loadCroppedBackground($backgroundHolder);
 	
+		$('.fa-refresh').click(function() {
+			loadCroppedBackground($backgroundHolder);
+		});
+
+		$('.fa-file-image-o').click(function() {
+			loadFullBackground($backgroundHolder);
+		});
+
 		$( ".fa" ).hover(
 		  function() {
 		    $( ".fa" ).addClass( "hover" );
@@ -176,14 +185,6 @@ layout:
 		    $( ".fa" ).removeClass( "hover" );
 		  }
 		);
-
-		$('.fa-refresh').click(function() {
-			loadCroppedBackground();
-		});
-
-		$('.fa-file-image-o').click(function() {
-			loadFullBackground();
-		});
 
 		$('.fa-github').click(function() {
 			window.location.assign("https://github.com/earthlydelights/earthlydelights.github.io");
