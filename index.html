@@ -52,21 +52,19 @@
 			    background-color: black;
 			}		
 			body {
-				background: url(https://tebaldi051108trial.hanatrial.ondemand.com/geppaequo-api/images/v1/crop) no-repeat center center fixed; 
+				background: url(https://tebaldi051108trial.hanatrial.ondemand.com/geppaequo-api/images/v1/crop?url=/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights-big.jpg) no-repeat center center fixed; 
 				-webkit-background-size: cover;
 				-moz-background-size: cover;
 				-o-background-size: cover;
 				background-size: cover;
 				font-size: 48px;
+				color: white;
 				position: relative;
 				height: 100%;
 				margin: 0;
 				padding: 0;
 			}
 
-			.fa {
-				color: rgba(255, 255, 255, 1);
-			}
 			.fa.fa-refresh.fa-spin,
 			.fa.fa-refresh.fa-spin.light {
 				background-color: transparent;
@@ -81,6 +79,7 @@
 			}
 			.fa {
 				position: absolute;
+				color: rgba(255, 255, 255, 1);
 				margin: 5px 5px 5px 5px;
 				padding: 5px 5px 5px 5px;
 			    cursor: pointer;
@@ -101,25 +100,72 @@
 			    bottom: 0;
 			    left: 0;
 			}
+			#waitingForBackend {
+			    margin: 0 auto;
+			    padding-top: 1em;
+			    text-align:center;
+				font-family: Consolas !important;
+				font-size: 20px; 
+				display: none;
+			}
 		</style>
 	</head>
 
 	<body>
+		<div id="waitingForBackend" class="top_center"></div>
 		<i class="fa fa-refresh fa-spin top_left" title="watch another detail"></i>
-		<a href="https://tebaldi051108trial.hanatrial.ondemand.com/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights-1515-7.jpg" title="watch the full painting" target="">
+		<a href="https://tebaldi051108trial.hanatrial.ondemand.com/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights-big.jpg" title="watch the full painting" target="">
 		   <i class="fa fa-file-image-o top_right"></i>
 		</a>
 		<!--i class="fa fa-copyright bottom_left"></i-->
-		
-    
 	</body>
 
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 	<script type="text/javascript">
-	$(document).ready(function(){
+
+	$(document).ready(function() {
 		$('.fa-refresh').click(function() {
 		    location.reload();
 		});
+
+		var $waitingForBackend = $('#waitingForBackend');
+		var hasFailed = false;
+
+		function pollBackend() {
+	        console.log('enter pollBackend');
+	        if (hasFailed) {
+				$waitingForBackend.text("trying to contact backend ...");
+				$('.fa-refresh').addClass("fa-spin");
+				$('.fa').removeClass("light");
+	        }
+		    $.ajax({
+		    	url   : 'https://tebaldi051108trial.hanatrial.ondemand.com/favicon.ico',
+		    	cache : false,
+		        crossDomain: true,
+		    }).done(function(data) {
+		       // location.reload();
+		       if (hasFailed) {
+		       	$('body').css({
+		       		background: "url(https://tebaldi051108trial.hanatrial.ondemand.com/geppaequo-api/images/v1/crop?url=/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights-big.jpg) no-repeat center center fixed"
+		       	});
+				$('.fa-refresh').removeClass("fa-spin");
+				$('.fa').addClass("light");
+				$waitingForBackend.hide();
+		       }
+	  		}).fail(function() {
+	  			hasFailed = true;
+;				$waitingForBackend.show().text("backend is not responding. I will retry in 10 seconds.");
+				$('.fa-refresh').removeClass("fa-spin");
+				$('.fa').addClass("light");
+		        setTimeout(pollBackend,10000);
+		        console.log('failed setTimeout');
+	  		}).always( function() {
+  	            console.log('exit pollBackend');
+	  		});
+		};
+
+		pollBackend();
+
 	});
 
 	$(window).on("load", function() {
