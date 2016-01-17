@@ -4,7 +4,7 @@ layout:
 ---
 <!-- index.html -->
 <!DOCTYPE html>
-<html id="backgroundHolder">
+<html>
 
 	<head>
 		<meta charset="utf-8">
@@ -72,11 +72,9 @@ layout:
 				margin: 5px 5px 5px 5px;
 				padding: 5px 5px 5px 5px;
 			    cursor: pointer;
-				-webkit-border-radius: 8px;
-				-moz-border-radius: 8px;
-				border-radius: 8px;			    
+				border-radius: 8px;
 			}
-			.fa.fa-refresh.fa-spin {
+			.favicon.fa-spin {
 				background-color: transparent;
 			}
 			.fa.light {
@@ -115,6 +113,10 @@ layout:
 				font-size: 20px; 
 				display: none;
 			}
+			// cf. http://stackoverflow.com/a/24993002/1070215
+			.hover_img a { position:relative; }
+			.hover_img a img { position:absolute; bottom:30px; right:-20px; display:none; z-index:200; background-color: rgba(255, 255, 255, .5); border-radius: 8px;}
+			.hover_img:hover a img { display:block; }
 		</style>
 	</head>
 
@@ -124,8 +126,12 @@ layout:
 		<i class="fa fa-file-image-o top_right"></i>
 {% if jekyll.environment == "development" %}
 		<i class="fa fa-github bottom_left"></i>		
-		<i class="fa fa-copyright bottom_right"></i>
 {% endif %}	    	
+		<i class="fa fa-copyright bottom_right hover_img">
+	    	<a href="https://twitter.com/cthiebaud" target="twitter.com/cthiebaud">
+		      <img src="images/christophe.thiebaud.png" alt="image" height="100" />
+    		</a>
+		</i>
 	</body>
 
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -136,47 +142,61 @@ layout:
 	var backend = "http://localhost:8080/geppaequo-web";
 {% else %}	    	
 	var backend = "https://tebaldi051108trial.hanatrial.ondemand.com";
-{% endif %}	    	
-
-    // cf. https://developer.mozilla.org/en-US/docs/Web/CSS/background IS YOUR FRIEND !!!!
-	function loadFullBackground($backgroundHolder) {
-	    var ret = $backgroundHolder.css({
-	    	background: 
-	    	    "url(" + backend + "/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" + 
-	    	    ") center center / contain no-repeat fixed black",
-	    });
-	    console.log(ret);
-	}
-	function loadCroppedBackground($backgroundHolder) {
-	    var cropWidth  = $backgroundHolder.width();
-	    var cropHeight = $backgroundHolder.height();
-
-	    console.log("cropWidth", cropWidth, "cropHeight", cropHeight);
-
-	    var ret = $backgroundHolder.css({
-	    	background: 
-	    	    "url(" + backend + "/geppaequo-api/images/v1/crop" +
-	    		"?url=/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" + 
-	    		"&" + (new Date()).getTime() + 
-	    		"&cropWidth=" + cropWidth + 
-	    		"&cropHeight=" + cropHeight + 
-	    		") center center / auto no-repeat fixed black",
-	    });
-	    console.log(ret);
-	}
+{% endif %}
 
 	$(document).ready(function() {
-		var $backgroundHolder = $('#backgroundHolder');
 
-    	loadCroppedBackground($backgroundHolder);
-	
-		$('.fa-refresh').click(function() {
-			loadCroppedBackground($backgroundHolder);
-		});
+		function callImageLoaded($backgroundHolder) {
+			$backgroundHolder.imagesLoaded( { background: true } )
+			.progress( function( instance, image ) {
+				var result = image.isLoaded ? 'loaded' : 'broken';
+				console.log( 'image is ' + result + ' for ' + image.img.src );
+			})
+			.fail( function() {
+				console.log('all images loaded, at least one is broken');
+			})
+			.done( function( instance ) {
+				console.log('all images successfully loaded');
+			})
+			.always( function( instance ) {
+				$('.fa-refresh').removeClass("fa-spin");
+				$('.fa').addClass("light");
+				console.log('always');
+			})
+			;
+		}
 
-		$('.fa-file-image-o').click(function() {
-			loadFullBackground($backgroundHolder);
-		});
+	    // cf. https://developer.mozilla.org/en-US/docs/Web/CSS/background IS YOUR FRIEND !!!!
+		function loadFullBackground($backgroundHolder) {
+			$('.fa-refresh').addClass("fa-spin");
+		    var ret = $backgroundHolder.css({
+		    	background: 
+		    	    "url(" + backend + "/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" + 
+		    	    ") center center / contain no-repeat fixed black",
+		    });
+			callImageLoaded($backgroundHolder);
+		    console.log(ret);
+		}
+
+		function loadCroppedBackground($backgroundHolder) {
+			$('.fa-refresh').addClass("fa-spin");
+		    var cropWidth  = $backgroundHolder.width();
+		    var cropHeight = $backgroundHolder.height();
+
+		    console.log("cropWidth", cropWidth, "cropHeight", cropHeight);
+
+		    var ret = $backgroundHolder.css({
+		    	background: 
+		    	    "url(" + backend + "/geppaequo-api/images/v1/crop" +
+		    		"?url=/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" + 
+		    		"&" + (new Date()).getTime() + 
+		    		"&cropWidth=" + cropWidth + 
+		    		"&cropHeight=" + cropHeight + 
+		    		") center center / auto no-repeat fixed black",
+		    });
+			callImageLoaded($backgroundHolder);
+		    console.log(ret);
+		}
 
 		$( ".fa" ).hover(
 		  function() {
@@ -185,31 +205,31 @@ layout:
 		    $( ".fa" ).removeClass( "hover" );
 		  }
 		);
+		$( ".fa-copyright" ).hover(
+		  function() {
+		  }, function() {
+		  }
+		);
 
 		$('.fa-github').click(function() {
 			window.location.assign("https://github.com/earthlydelights/earthlydelights.github.io");
 		});
 
-		$('body').imagesLoaded( { background: true } )
-		.always( function( instance ) {
-			$('.fa-refresh').removeClass("fa-spin");
-			$('.fa').addClass("light");
-		})
-		.done( function( instance ) {
-			console.log('all images successfully loaded');
-		})
-		.fail( function() {
-			console.log('all images loaded, at least one is broken');
-		})
-		.progress( function( instance, image ) {
-			var result = image.isLoaded ? 'loaded' : 'broken';
-			console.log( 'image is ' + result + ' for ' + image.img.src );
-		});
+		$(window).on("load", function() {
+			var $backgroundHolder = $('html');
 
+	    	loadCroppedBackground($backgroundHolder);
+		
+			$('.fa-refresh').click(function() {
+				loadCroppedBackground($backgroundHolder);
+			});
+
+			$('.fa-file-image-o').click(function() {
+				loadFullBackground($backgroundHolder);
+			});
+	    });
 	});
 
-	$(window).on("load", function() {
-    });
 	</script>
 
 </html>
