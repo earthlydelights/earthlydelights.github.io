@@ -11,6 +11,8 @@
 /tmp/
 /_site/
 
+.jekyll-metadata
+
 ## Specific to RubyMotion:
 .dat*
 .repl_history

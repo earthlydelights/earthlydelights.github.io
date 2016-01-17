@@ -4,7 +4,7 @@ layout:
 ---
 <!-- index.html -->
 <!DOCTYPE html>
-<html id="backgroundHolder" style="background-color: black;">
+<html id="backgroundHolder">
 
 	<head>
 		<meta charset="utf-8">
@@ -55,14 +55,6 @@ layout:
 			html {
 			    height: 100%;
 			    background-color: black;
-			}		
-			#backgroundHolder {
-				/*
-				-webkit-background-size: cover;
-				-moz-background-size: cover;
-				-o-background-size: cover;
-				background-size: cover;
-				*/
 			}		
 			body {
 				font-size: 48px;
@@ -148,28 +140,29 @@ layout:
 
     var $backgroundHolder = $('#backgroundHolder');
 
+    // cf. https://developer.mozilla.org/en-US/docs/Web/CSS/background
 	function loadFullBackground() {
-	    $backgroundHolder.css({
+	    var ret = $backgroundHolder.css({
 	    	background: 
-	    	    "black url(" + backend + "/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" + 
-	    	    ") no-repeat fixed",
-	    	"background-size": "100%",
+	    	    "url(" + backend + "/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" + 
+	    	    ") center center / contain no-repeat fixed black",
 	    });
+	    console.log(ret);
 	}
 	function loadCroppedBackground() {
 	    var cropWidth  = $backgroundHolder.width();
 	    var cropHeight = $backgroundHolder.height();
 
-	    $backgroundHolder.css({
+	    var ret = $backgroundHolder.css({
 	    	background: 
-	    	    "black url(" + backend + "/geppaequo-api/images/v1/crop" +
+	    	    "url(" + backend + "/geppaequo-api/images/v1/crop" +
 	    		"?url=/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" + 
 	    		"&" + (new Date()).getTime() + 
 	    		"&cropWidth=" + cropWidth + 
 	    		"&cropHeight=" + cropHeight + 
-	    		") no-repeat center center fixed",
-	    	"background-size": "inherit",
+	    		") center center / auto no-repeat fixed black",
 	    });
+	    console.log(ret);
 	}
 
 	$(document).ready(function() {
