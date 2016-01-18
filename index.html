@@ -186,7 +186,8 @@ layout:
 			$('.fa').addClass("light").removeClass( "hover" );
 		}
 		function callImageLoaded($backgroundHolder, retry) {
-			$backgroundHolder.imagesLoaded( { background: true } )
+			console.log(moment().format("h:mm:ss a"), "about to call imagesLoaded ");
+			$backgroundHolder.imagesLoaded( { background: true, debug: true } )
 
 				.progress( function( instance, image ) {
 					var result = image.isLoaded ? 'loaded' : 'broken';
