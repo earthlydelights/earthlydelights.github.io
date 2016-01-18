@@ -7,27 +7,28 @@ layout:
 <html>
 
 	<head>
+
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	    <!-- BEGIN Open Graph data -->
-	    <meta property="og:locale"      content="en_US">
-	    <meta property="og:title"       content="The Garden of Earthly Delights" />
-	    <meta property="og:type"        content="website" />
-	    <meta property="og:url"         content="http://earthlydelights.garden" />
-	    <meta property="og:description" content="« The Garden of Earthly Delights is the modern title given to a triptych painted by the Early Netherlandish master Hieronymus Bosch. It has been housed in the Museo del Prado in Madrid since 1939. Dating from between 1490 and 1510, when Bosch was between about 40 and 60 years old, it is his best-known and most ambitious complete work. » https://en.wikipedia.org/wiki/The_Garden_of_Earthly_Delights" />
-	    <meta property="og:site_name"   content="earthlydelights" />
-	  
-	    <meta property="og:image"        content="http://earthlydelights.garden/images/sample_center_bottom-600x340.png" />
-	    <meta property="og:image:url"    content="http://earthlydelights.garden/images/sample_center_bottom-600x340.png" />
-	    <meta property="og:image:type"   content="image/png" />
-	    <meta property="og:image:width"  content="600" />
-	    <meta property="og:image:height" content="340" />
-	    
-	    <meta property="fb:admins" content="708154592"/>
-	    <meta property="fb:app_id" content="104250825478" />
-	    <!-- END Open Graph data -->
+		<!-- BEGIN Open Graph data -->
+		<meta property="og:locale"		content="en_US">
+		<meta property="og:title"		content="The Garden of Earthly Delights" />
+		<meta property="og:type"		content="website" />
+		<meta property="og:url"			content="http://earthlydelights.garden" />
+		<meta property="og:description" content="« The Garden of Earthly Delights is the modern title given to a triptych painted by the Early Netherlandish master Hieronymus Bosch. It has been housed in the Museo del Prado in Madrid since 1939. Dating from between 1490 and 1510, when Bosch was between about 40 and 60 years old, it is his best-known and most ambitious complete work. » https://en.wikipedia.org/wiki/The_Garden_of_Earthly_Delights" />
+		<meta property="og:site_name"	content="earthlydelights" />
+
+		<meta property="og:image"			content="http://earthlydelights.garden/images/sample_center_bottom-600x340.png" />
+		<meta property="og:image:url"		content="http://earthlydelights.garden/images/sample_center_bottom-600x340.png" />
+		<meta property="og:image:type"		content="image/png" />
+		<meta property="og:image:width"		content="600" />
+		<meta property="og:image:height"	content="340" />
+
+		<meta property="fb:admins" content="708154592"/>
+		<meta property="fb:app_id" content="104250825478" />
+		<!-- END Open Graph data -->
 
 		<title>The Garden of Earthly Delights</title>
 		<meta name="description" content="The Garden of Earthly Delights">
@@ -53,8 +54,8 @@ layout:
 
 		<style type="text/css">
 			html {
-			    height: 100%;
-			    background-color: black;
+				height: 100%;
+				background-color: black;
 			}		
 			body {
 				font-size: 48px;
@@ -65,13 +66,17 @@ layout:
 				margin: 0;
 				padding: 0;
 			}
-
+			a {
+				text-decoration:none;
+			}
 			.fa {
 				color: rgba(255, 255, 255, 1);
 				margin: 5px 5px 5px 5px;
 				padding: 5px 5px 5px 5px;
-			    cursor: pointer;
+				cursor: pointer;
 				border-radius: 8px;
+				text-align: center;
+				display: block;
 			}
 			.fa.fa-refresh.fa-spin {
 				background-color: transparent;
@@ -90,52 +95,69 @@ layout:
 			}
 			.top_right {
 				position: absolute;
-			    top: 0;
-			    right: 0;
+				top: 0;
+				right: 0;
 			}
 			.top_left {
 				position: absolute;
-			    top: 0;
-			    left: 0;
+				top: 0;
+				left: 0;
 			}
 			.bottom_right {
 				position: absolute;
-			    bottom: 0;
-			    right: 0;
+				bottom: 0;
+				right: 0;
 			}
 			.bottom_left {
 				position: absolute;
-			    bottom: 0;
-			    left: 0;
+				bottom: 0;
+				left: 0;
 			}
 			#waitingForBackend {
-			    margin: 0 auto;
-			    padding-top: 1em;
-			    text-align:center;
+				margin: 0 auto;
+				padding-top: 1em;
+				text-align:center;
 				font-family: Consolas !important;
 				font-size: 20px; 
 				display: none;
 			}
 			// cf. http://stackoverflow.com/a/24993002/1070215
-			.hover_img a { position:relative; }
-			.hover_img a span { position:absolute; bottom:30px; right:20px; display:none; z-index:99; width="50%" background-color: rgba(255, 255, 255, .5); }
-			.hover_img:hover a span { display:block; }
+			.hover_img a { 
+				position:relative;
+			}
+			.hover_img a span { 
+				position:absolute; 
+				bottom:30px; 
+				right:20px; 
+				display:none; 
+				z-index:99; 
+				width="50%" 
+				background-color: rgba(255, 255, 255, .5); 
+			}
+			.hover_img:hover a span { 
+				display:block; 
+			}
 		</style>
+
 	</head>
 
 	<body style="background-color: transparent;"> 
 		<div id="waitingForBackend"	>
 			<div id="clock"></div>
 		</div>
-		<i class="fa fa-refresh fa-spin top_left" title="watch another detail"></i>
+		<i class="fa fa-refresh fa-spin top_left"		title="watch another detail"></i>
 		<span class="top_right">
-			<i class="fa fa-picture-o" style="float:right;" title="watch the full painting"></i><br>
-	    	<a href="https://en.wikipedia.org/wiki/The_Garden_of_Earthly_Delights">
-	          <i class="fa fa-info" title="go to wikipedia article" style="float:right;"></i> 	
-    		</a>
+			<div>
+				<i class="fa fa-picture-o"				title="watch the full painting"></i>
+			</div>
+			<div>
+				<a href="https://en.wikipedia.org/wiki/The_Garden_of_Earthly_Delights">
+					<i class="fa fa-info"				title="go to wikipedia article"></i> 	
+				</a>
+			</div>
 		</span>
-    	<a href="https://github.com/earthlydelights/earthlydelights.github.io">
-			<i class="fa fa-github bottom_right" title="go to github project"></i>
+		<a href="https://github.com/earthlydelights/earthlydelights.github.io">
+			<i class="fa fa-github bottom_right"		title="go to github project"></i>
 		</a>
 	</body>
 
@@ -144,23 +166,22 @@ layout:
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.1.0/jquery.countdown.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
 	<script type="text/javascript">
- 
+
 {% if jekyll.environment == "development" %}
 	var backend = "http://localhost:8080/geppaequo-web";
 	var millisecondsBeforeRetry = 5000; 
-{% else %}	    	
+{% else %}			
 	var backend = "https://tebaldi051108trial.hanatrial.ondemand.com";
 	var millisecondsBeforeRetry = 20000;
 {% endif %}
-
 	$(document).ready(function() {
 
-	    function displayLoadStart() {
+		function displayLoadStart() {
 			console.log(moment().format("h:mm:ss a"));
 			$('#clock').html('');
 			$('.fa-refresh').addClass("fa-spin");
-	    }
-	    function displayLoadFinish() {
+		}
+		function displayLoadFinish() {
 			$('.fa-refresh').removeClass("fa-spin");
 			$('.fa').addClass("light").removeClass( "hover" );
 		}
@@ -176,13 +197,13 @@ layout:
 						var nextTentative = moment().add(millisecondsBeforeRetry, 'milliseconds');
 						console.log('all images loaded, at least one is broken, will retry @ ' + nextTentative.format("h:mm:ss a"));
 						$('#clock').countdown(nextTentative.toDate(), function(event) {
-						   $(this).html(event.strftime('Cannot connect to image server, retrying in %S seconds.'));
+							$(this).html(event.strftime('Cannot connect to image server, retrying in %S seconds.'));
 						}).on('finish.countdown', function(event) {
 							retry($backgroundHolder); 
 						});		
 						$('#waitingForBackend').show();
 					} else {
-  						console.log('all images loaded, at least one is broken');
+						console.log('all images loaded, at least one is broken');
 					}
 				})
 				.done( function( instance ) {
@@ -194,51 +215,48 @@ layout:
 				})
 			;
 		}
-
-	    // cf. https://developer.mozilla.org/en-US/docs/Web/CSS/background IS YOUR FRIEND !!!!
+		// cf. https://developer.mozilla.org/en-US/docs/Web/CSS/background IS YOUR FRIEND !!!!
 
 		function loadFullBackground($backgroundHolder) {
 			displayLoadStart();
 
-		    $backgroundHolder.css({
-		    	background: 
-		    	    "url(images/the-garden-of-earthly-delights.jpg" + 
-		    	    ") center center / contain no-repeat fixed black",
-		    });
+			$backgroundHolder.css({
+				background: 
+					"url(images/the-garden-of-earthly-delights.jpg" + 
+					") center center / contain no-repeat fixed black",
+			});
 			callImageLoaded($backgroundHolder, loadFullBackground);
 		}
-
 		function loadCroppedBackground($backgroundHolder) {
 			displayLoadStart();
 
-		    var cropWidth  = $backgroundHolder.width();
-		    var cropHeight = $backgroundHolder.height();
-		    $backgroundHolder.css({
-		    	background: 
-		    	    "url(" + backend + 
-		    	    "/geppaequo-api/images/v1/crop" +
-		    		"?url=/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" + 
-		    		"&" + (new Date()).getTime() + 
-		    		"&cropWidth=" + cropWidth + 
-		    		"&cropHeight=" + cropHeight + 
-		    		") center center / auto no-repeat fixed black",
-		    });
+			var cropWidth	= $backgroundHolder.width();
+			var cropHeight	= $backgroundHolder.height();
+			$backgroundHolder.css({
+				background: 
+					"url(" + backend + 
+					"/geppaequo-api/images/v1/crop" +
+					"?url=/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" + 
+					"&" + (new Date()).getTime() + 
+					"&cropWidth=" + cropWidth + 
+					"&cropHeight=" + cropHeight + 
+					") center center / auto no-repeat fixed black",
+			});
 			callImageLoaded($backgroundHolder, loadCroppedBackground);
 		}
-
 		$( ".fa" ).hover(
-		  function() {
-		    $( ".fa" ).addClass( "hover" );
-		  }, function() {
-		    $( ".fa" ).removeClass( "hover" );
-		  }
+			function() {
+				$( ".fa" ).addClass( "hover" );
+			}, function() {
+				$( ".fa" ).removeClass( "hover" );
+			}
 		);
 
 		$(window).on("load", function() {
 			var $backgroundHolder = $('html');
 
-	    	loadCroppedBackground($backgroundHolder);
-		
+			loadCroppedBackground($backgroundHolder);
+
 			$('.fa-refresh').click(function() {
 				loadCroppedBackground($backgroundHolder);
 			});
@@ -246,7 +264,7 @@ layout:
 			$('.fa-picture-o').click(function() {
 				loadFullBackground($backgroundHolder);
 			});
-	    });
+		});
 	});
 
 	</script>
