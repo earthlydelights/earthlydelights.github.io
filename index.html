@@ -65,13 +65,15 @@ layout:
 				height: 100%;
 				margin: 0;
 				padding: 0;
-				cursor: pointer;
+				cursor: crosshair;
+				overflow: hidden;
 			}
 			a {
 				text-decoration:none;
 			}
-			.fa {
-				color: rgba(255, 255, 255, 1);
+			.fa, input {
+				color: rgba(255, 255, 255, .3);
+				background-color: rgba(0, 0, 0, .3);
 				margin: 5px 5px 5px 5px;
 				padding: 5px 5px 5px 5px;
 				cursor: pointer;
@@ -79,12 +81,9 @@ layout:
 				text-align: center;
 				// display: block;
 			}
-			.fa.fa-refresh.fa-spin {
+			.fa-spinner.fa-spin {
+				// display: none;
 				background-color: transparent;
-			}
-			.fa.light {
-				color: rgba(255, 255, 255, .3);
-				background-color: rgba(0, 0, 0, .3);
 			}
 			.fa.hover {
 				color: rgba(255, 255, 255, .5);
@@ -104,6 +103,12 @@ layout:
 				top: 0;
 				left: 0;
 			}
+			.middle_middle {
+				position: absolute;
+				top: 50%;
+        		left: 50%;
+				display:block;
+        	}
 			.bottom_right {
 				position: absolute;
 				bottom: 0;
@@ -138,6 +143,27 @@ layout:
 			.hover_img:hover a span {
 				display:block;
 			}
+			input[type=range]
+			{
+			    width: 150px;
+			    padding: 5px 0;
+			    background-color: white;
+			    color: white;
+			    opacity: .33;
+				margin: 5px 5px 5px 5px;
+				padding: 5px 5px 5px 5px;
+			}			
+			input[type=range][orient=vertical]
+			{
+			    writing-mode: bt-lr; /* IE */
+			    -webkit-appearance: slider-vertical; /* WebKit */
+			    height: 200	px;
+			    padding: 0 5px;
+			    background-color: white;
+			    color: white;
+			    opacity: .33;
+			    display:block;
+			}			
 		</style>
 
 	</head>
@@ -146,26 +172,28 @@ layout:
 		<div id="waitingForBackend"	>
 			<div id="clock"></div>
 		</div>
-		<i class="fa fa-refresh fa-spin top_left"		title="watch another detail"></i>
+
+		<img class="fa-spinner fa-spin" style="width:100%; height:100%; " src="images/spiral.svg"/>
+
+		<i class="fa fa-refresh top_left" title="watch another detail"></i>
+
 		<a href="https://en.wikipedia.org/wiki/The_Garden_of_Earthly_Delights">
-			<i class="fa fa-info top_right"				title="go to wikipedia article"></i>
+			<i class="fa fa-wikipedia-w top_right"				title="go to wikipedia article"></i>
 		</a>
-		<!-- span class="top_right">
-			<div>
-				<i class="fa fa-picture-o"				title="watch the full painting"></i>
-			</div>
-			<div>
-			</div>
-		</span-->
+
 		<a href="https://github.com/earthlydelights/earthlydelights.github.io">
 			<i class="fa fa-github bottom_right"		title="go to github project"></i>
 		</a>
+
+		<input type="range" id="quality" orient="horizontal" class="bottom_left"  min="20" max="100">
+
 	</body>
 
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.0/imagesloaded.pkgd.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.1.0/jquery.countdown.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.6/hammer.min.js"></script>
 	<script type="text/javascript">
 
 {% if jekyll.environment == "development" %}
@@ -176,18 +204,21 @@ layout:
 	var millisecondsBeforeRetry = 20000;
 {% endif %}
 	$(document).ready(function() {
-
+		// var myVar;
 		function displayLoadStart() {
-			console.log(moment().format("h:mm:ss a"));
+			console.log('load starts', moment().format("h:mm:ss a"));
 			$('#clock').html('');
-			$('.fa-refresh').addClass("fa-spin");
+			// myVar = setTimeout(function () {$('.fa-spinner').show();}, 333);
+			$('.fa-spinner').stop().fadeIn(1000)/*.animate({ visibility: "visible"}, 333)*/;
 		}
 		function displayLoadFinish() {
-			$('.fa-refresh').removeClass("fa-spin");
-			$('.fa').addClass("light").removeClass( "hover" );
+			$('.fa-spinner').stop().fadeOut(200)/*.css({ visibility: "hidden"})*/;
+			// clearTimeout(myVar);
+			$('.fa').removeClass( "hover" );
+			console.log('load finished', moment().format("h:mm:ss a"));
 		}
 		function callImageLoaded($backgroundHolder, retry) {
-			console.log(moment().format("h:mm:ss a"), "about to call imagesLoaded ");
+			console.log("about to call imagesLoaded", moment().format("h:mm:ss a"));
 			$backgroundHolder.imagesLoaded( { background: true, debug: true } )
 
 				.progress( function( instance, image ) {
@@ -199,9 +230,10 @@ layout:
 						var nextTentative = moment().add(millisecondsBeforeRetry, 'milliseconds');
 						console.log('all images loaded, at least one is broken, will retry @ ' + nextTentative.format("h:mm:ss a"));
 						$('#clock').countdown(nextTentative.toDate(), function(event) {
-							$(this).html(event.strftime('Cannot connect to image server, retrying in %S seconds.'));
+							$(this).html(event.strftime('Cannot connect to image server, page will auto-reload in %S seconds.'));
 						}).on('finish.countdown', function(event) {
-							retry($backgroundHolder);
+							location.reload();
+							// retry($backgroundHolder);
 						});
 						$('#waitingForBackend').show();
 					} else {
@@ -239,33 +271,53 @@ layout:
 					"url(" + backend +
 					"/geppaequo-api/images/v1/crop" +
 					"?url=/geppaequo-api/stnemucod/v1/document/images/bosch-the-garden-of-earthly-delights.jpg" +
-					"&" + (new Date()).getTime() +
+					"&" + (new Date()).getTime() + 
 					"&cropWidth=" + cropWidth +
 					"&cropHeight=" + cropHeight +
+					"&quality=" + $('#quality').val() +
 					") center center / auto no-repeat fixed black",
 			});
 			callImageLoaded($backgroundHolder, loadCroppedBackground);
 		}
-		$( ".fa" ).hover(
+		$( ".fa, input[type=range]" ).hover(
 			function() {
-				$( ".fa" ).addClass( "hover" );
+				$( ".fa, input[type=range]" ).addClass( "hover" );
 			}, function() {
-				$( ".fa" ).removeClass( "hover" );
+				$( ".fa, input[type=range]" ).removeClass( "hover" );
 			}
 		);
 
-		$(window).on("load", function() {
-			var $backgroundHolder = $('html');
+		var $backgroundHolder = $('html');
 
-			setTimeout(loadCroppedBackground, 1000, $backgroundHolder);
+		loadCroppedBackground($backgroundHolder);
 
-			$('.fa-refresh, body').click(function() {
-				loadCroppedBackground($backgroundHolder);
-			});
+		$('.fa-refresh').on('click', function(event) {
+			// event.preventDefault();
+			loadCroppedBackground($backgroundHolder);
+		});
+		$('.fa-picture-o').on('click', function(event) {
+			event.preventDefault();
+			loadFullBackground($backgroundHolder);
+		});
 
-			$('.fa-picture-o').click(function() {
-				loadFullBackground($backgroundHolder);
-			});
+		var mc = new Hammer(document.body);
+		mc.on("swipe", function(event) {
+			event.preventDefault();
+			loadCroppedBackground($backgroundHolder);
+		});
+		mc.on("tap", function(event) {
+    		// event.preventDefault();
+			if ($(event.target).is('input[type=range]')) {
+        		return false;
+    		}
+			loadCroppedBackground($backgroundHolder);
+		});
+		mc.on("press", function(event) {
+			event.preventDefault();
+			if (!$(event.target).is('body')) {
+        		return false;
+    		}
+			loadFullBackground($backgroundHolder);
 		});
 	});
 
