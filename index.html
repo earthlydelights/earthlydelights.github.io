@@ -1,6 +1,6 @@
 ---
 title: The Garden of Earthly Delights
-layout: 
+layout:
 ---
 <!-- index.html -->
 <!DOCTYPE html>
@@ -56,7 +56,7 @@ layout:
 			html {
 				height: 100%;
 				background-color: black;
-			}		
+			}
 			body {
 				font-size: 48px;
 				color: white;
@@ -118,30 +118,30 @@ layout:
 				padding-top: 1em;
 				text-align:center;
 				font-family: Consolas !important;
-				font-size: 20px; 
+				font-size: 20px;
 				display: none;
 			}
 			// cf. http://stackoverflow.com/a/24993002/1070215
-			.hover_img a { 
+			.hover_img a {
 				position:relative;
 			}
-			.hover_img a span { 
-				position:absolute; 
-				bottom:30px; 
-				right:20px; 
-				display:none; 
-				z-index:99; 
-				width="50%" 
-				background-color: rgba(255, 255, 255, .5); 
+			.hover_img a span {
+				position:absolute;
+				bottom:30px;
+				right:20px;
+				display:none;
+				z-index:99;
+				width="50%"
+				background-color: rgba(255, 255, 255, .5);
 			}
-			.hover_img:hover a span { 
-				display:block; 
+			.hover_img:hover a span {
+				display:block;
 			}
 		</style>
 
 	</head>
 
-	<body style="background-color: transparent;"> 
+	<body style="background-color: transparent;">
 		<div id="waitingForBackend"	>
 			<div id="clock"></div>
 		</div>
@@ -152,7 +152,7 @@ layout:
 			</div>
 			<div>
 				<a href="https://en.wikipedia.org/wiki/The_Garden_of_Earthly_Delights">
-					<i class="fa fa-info"				title="go to wikipedia article"></i> 	
+					<i class="fa fa-info"				title="go to wikipedia article"></i>
 				</a>
 			</div>
 		</span>
@@ -169,8 +169,8 @@ layout:
 
 {% if jekyll.environment == "development" %}
 	var backend = "http://localhost:8080/geppaequo-web";
-	var millisecondsBeforeRetry = 5000; 
-{% else %}			
+	var millisecondsBeforeRetry = 5000;
+{% else %}
 	var backend = "https://tebaldi051108trial.hanatrial.ondemand.com";
 	var millisecondsBeforeRetry = 20000;
 {% endif %}
@@ -199,8 +199,8 @@ layout:
 						$('#clock').countdown(nextTentative.toDate(), function(event) {
 							$(this).html(event.strftime('Cannot connect to image server, retrying in %S seconds.'));
 						}).on('finish.countdown', function(event) {
-							retry($backgroundHolder); 
-						});		
+							retry($backgroundHolder);
+						});
 						$('#waitingForBackend').show();
 					} else {
 						console.log('all images loaded, at least one is broken');
@@ -221,8 +221,8 @@ layout:
 			displayLoadStart();
 
 			$backgroundHolder.css({
-				background: 
-					"url(images/the-garden-of-earthly-delights.jpg" + 
+				background:
+					"url(images/the-garden-of-earthly-delights.jpg" +
 					") center center / contain no-repeat fixed black",
 			});
 			callImageLoaded($backgroundHolder, loadFullBackground);
@@ -233,13 +233,13 @@ layout:
 			var cropWidth	= $backgroundHolder.width();
 			var cropHeight	= $backgroundHolder.height();
 			$backgroundHolder.css({
-				background: 
-					"url(" + backend + 
+				background:
+					"url(" + backend +
 					"/geppaequo-api/images/v1/crop" +
-					"?url=/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" + 
-					"&" + (new Date()).getTime() + 
-					"&cropWidth=" + cropWidth + 
-					"&cropHeight=" + cropHeight + 
+					"?url=/geppaequo-api/stnemucod/v1/document/images/the-garden-of-earthly-delights.jpg" +
+					"&" + (new Date()).getTime() +
+					"&cropWidth=" + cropWidth +
+					"&cropHeight=" + cropHeight +
 					") center center / auto no-repeat fixed black",
 			});
 			callImageLoaded($backgroundHolder, loadCroppedBackground);
