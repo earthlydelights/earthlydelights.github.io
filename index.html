@@ -65,6 +65,7 @@ layout:
 				height: 100%;
 				margin: 0;
 				padding: 0;
+				cursor: pointer;
 			}
 			a {
 				text-decoration:none;
@@ -76,7 +77,7 @@ layout:
 				cursor: pointer;
 				border-radius: 8px;
 				text-align: center;
-				display: block;
+				// display: block;
 			}
 			.fa.fa-refresh.fa-spin {
 				background-color: transparent;
@@ -146,16 +147,16 @@ layout:
 			<div id="clock"></div>
 		</div>
 		<i class="fa fa-refresh fa-spin top_left"		title="watch another detail"></i>
-		<span class="top_right">
+		<a href="https://en.wikipedia.org/wiki/The_Garden_of_Earthly_Delights">
+			<i class="fa fa-info top_right"				title="go to wikipedia article"></i>
+		</a>
+		<!-- span class="top_right">
 			<div>
 				<i class="fa fa-picture-o"				title="watch the full painting"></i>
 			</div>
 			<div>
-				<a href="https://en.wikipedia.org/wiki/The_Garden_of_Earthly_Delights">
-					<i class="fa fa-info"				title="go to wikipedia article"></i>
-				</a>
 			</div>
-		</span>
+		</span-->
 		<a href="https://github.com/earthlydelights/earthlydelights.github.io">
 			<i class="fa fa-github bottom_right"		title="go to github project"></i>
 		</a>
@@ -258,7 +259,7 @@ layout:
 
 			setTimeout(loadCroppedBackground, 1000, $backgroundHolder);
 
-			$('.fa-refresh').click(function() {
+			$('.fa-refresh, body').click(function() {
 				loadCroppedBackground($backgroundHolder);
 			});
 
