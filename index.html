@@ -255,7 +255,7 @@ layout:
 		$(window).on("load", function() {
 			var $backgroundHolder = $('html');
 
-			loadCroppedBackground($backgroundHolder);
+			setTimeout(loadCroppedBackground, 1000, $backgroundHolder);
 
 			$('.fa-refresh').click(function() {
 				loadCroppedBackground($backgroundHolder);
