@@ -225,7 +225,7 @@ layout:
 				.progress( function( instance, image ) {
 					var result = image.isLoaded ? 'loaded' : 'broken';
 					console.log( 'image is ' + result + ' for ' + image.img.src );
-					if (image.isLoaded && !image.img.src.endsWith("spiral.svg")) {
+					if (!image.isLoaded && !image.img.src.endsWith("spiral.svg")) {
 						if (retry) {
 							var nextTentative = moment().add(millisecondsBeforeRetry, 'milliseconds');
 							console.log('all images loaded, at least one is broken, will retry @ ' + nextTentative.format("h:mm:ss a"));
