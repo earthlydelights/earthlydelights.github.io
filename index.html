@@ -183,7 +183,7 @@ layout:
 			<i class="fa fa-github bottom_right"		title="go to github project"></i>
 		</a>
 
-		<input type="range" id="quality" class="fa bottom_left" min="20" max="100">
+		<input type="range" id="quality" class="fa bottom_left" min="0" max="100">
 
 	</body>
 
@@ -192,6 +192,7 @@ layout:
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.1.0/jquery.countdown.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.6/hammer.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
 	<script type="text/javascript">
 
 {% if jekyll.environment == "development" %}
@@ -229,9 +230,9 @@ layout:
 						if (retry) {
 							var nextTentative = moment().add(millisecondsBeforeRetry, 'milliseconds');
 							console.log('all images loaded, at least one is broken, will retry @ ' + nextTentative.format("h:mm:ss a"));
-							$('#clock').countdown(nextTentative.toDate(), function(event) {
-								$(this).html(event.strftime('<p>cannot connect to image server</p><p>page will reload in %S seconds</p>'));
-							}).on('finish.countdown', function(event) {
+							$('#clock').countdown(nextTentative.toDate(), function(ev) {
+								$(this).html(ev.strftime('<p>cannot connect to image server</p><p>page will reload in %S seconds</p>'));
+							}).on('finish.countdown', function(ev) {
 								location.reload();
 								// retry($backgroundHolder);
 							});
@@ -253,37 +254,42 @@ layout:
 		}
 
 		// cf. https://developer.mozilla.org/en-US/docs/Web/CSS/background IS YOUR FRIEND !!!!
+		{
 
-		function loadFullBackground($backgroundHolder) {
-			displayLoadStart();
+			function loadFullBackground($backgroundHolder) {
+				displayLoadStart();
 
-			$backgroundHolder.css({
-				background:
-					"url(images/bosch-the-garden-of-earthly-delights.jpg" +
-					") center center / contain no-repeat fixed black",
-			});
-			callImageLoaded($backgroundHolder, loadFullBackground);
+				$backgroundHolder.css({
+					background:
+						"url(images/bosch-the-garden-of-earthly-delights.jpg" +
+						") center center / contain no-repeat fixed black",
+				});
+				callImageLoaded($backgroundHolder, loadFullBackground);
+			}
+
+			function loadCroppedBackground($backgroundHolder) {
+				displayLoadStart();
+
+				var width	= $backgroundHolder.width();
+				var height	= $backgroundHolder.height();
+
+				$backgroundHolder.css({
+					background:
+						"url(" + backend +
+						"/geppaequo-api/images/v1/crop" +
+						"?url=/geppaequo-api/stnemucod/v1/document/images/bosch-the-garden-of-earthly-delights.jpg" +
+						"&" + (new Date()).getTime() +
+						"&width=" + width +
+						"&height=" + height +
+						"&quality=" + $('#quality').val() +
+						") center center / auto no-repeat fixed black",
+				});
+				callImageLoaded($backgroundHolder, loadCroppedBackground);
+			}
 		}
 
-		function loadCroppedBackground($backgroundHolder) {
-			displayLoadStart();
-
-			var cropWidth	= $backgroundHolder.width();
-			var cropHeight	= $backgroundHolder.height();
-
-			$backgroundHolder.css({
-				background:
-					"url(" + backend +
-					"/geppaequo-api/images/v1/crop" +
-					"?url=/geppaequo-api/stnemucod/v1/document/images/bosch-the-garden-of-earthly-delights.jpg" +
-					"&" + (new Date()).getTime() +
-					"&cropWidth=" + cropWidth +
-					"&cropHeight=" + cropHeight +
-					"&quality=" + $('#quality').val() +
-					") center center / auto no-repeat fixed black",
-			});
-			callImageLoaded($backgroundHolder, loadCroppedBackground);
-		}
+		var loadFullBackgroundThrottled = $.throttle( 666, loadFullBackground);
+		var loadCroppedBackgroundThrottled = $.throttle( 666, loadCroppedBackground);
 
 		$( ".fa, input[type=range]" ).hover(
 			function() {
@@ -297,37 +303,47 @@ layout:
 
 		var mc = new Hammer(document.body);
 
-		mc.on("swipe", function(event) {
-			// event.preventDefault();
+		$(window).keypress(function (ev) {
+		  if (ev.keyCode === 0 || ev.keyCode === 32) {
+		    ev.preventDefault()
 			if ($('.fa-spinner').is(":visible")) {
 				console.log("ignored swipe event, spinner is visible");
 				return false;
 			}
-			loadCroppedBackground($backgroundHolder);
+			loadCroppedBackgroundThrottled($backgroundHolder);
+		  }
 		})
-		.on("tap", function(event) {
-			// event.preventDefault();
+		mc.on("swipe", function(ev) {
+			// ev.preventDefault();
+			if ($('.fa-spinner').is(":visible")) {
+				console.log("ignored swipe event, spinner is visible");
+				return false;
+			}
+			loadCroppedBackgroundThrottled($backgroundHolder);
+		})
+		.on("tap", function(ev) {
+			// ev.preventDefault();
 			if ($('.fa-spinner').is(":visible")) {
 				console.log("ignored tap event, spinner is visible");
 				return false;
 			}
-			if (!$(event.target).is('body, .fa-refresh')) {
+			if (!$(ev.target).is('body, .fa-refresh')) {
 				console.log("ignored tap event, not on (body or .fa-refresh)");
 				return false;
 			}
-			loadCroppedBackground($backgroundHolder);
+			loadCroppedBackgroundThrottled($backgroundHolder);
 		})
-			.on("press", function(event) {
-			// event.preventDefault();
+			.on("press", function(ev) {
+			// ev.preventDefault();
 			if ($('.fa-spinner').is(":visible")) {
 				console.log("ignored press event, spinner is visible");
 				return false;
 			}
-			if (!$(event.target).is('body')) {
+			if (!$(ev.target).is('body')) {
 				console.log("ignored tap event, not on body");
 				return false;
 			}
-			loadFullBackground($backgroundHolder);
+			loadFullBackgroundThrottled($backgroundHolder);
 		});
 
 		loadCroppedBackground($backgroundHolder);
