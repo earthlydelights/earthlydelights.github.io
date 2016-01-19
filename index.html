@@ -155,7 +155,7 @@ layout:
 			}
 			input[type=range]
 			{
-				width: 150px;
+				width: 80px;
 				padding: 5px 0;
 				opacity: .33;
 				margin: 5px 5px 5px 5px;
@@ -231,7 +231,7 @@ layout:
 							var nextTentative = moment().add(millisecondsBeforeRetry, 'milliseconds');
 							console.log('all images loaded, at least one is broken, will retry @ ' + nextTentative.format("h:mm:ss a"));
 							$('#clock').countdown(nextTentative.toDate(), function(ev) {
-								$(this).html(ev.strftime('<p>cannot connect to image server</p><p>page will reload in %S seconds</p>'));
+								$(this).html(ev.strftime('<p>Trying to reach image server</p><p>Retrying in %S seconds &hellip;</p>'));
 							}).on('finish.countdown', function(ev) {
 								location.reload();
 								// retry($backgroundHolder);
