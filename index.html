@@ -123,9 +123,12 @@ layout:
 				bottom: 0;
 				left: 0;
 			}
-			#waitingForBackend {
+			#clock {
 				color: #999999;
-				background-color: black;
+				background-color: transparent;
+			}
+			#waitingForBackend {
+				background-color: transparent;
 				margin: 0 auto;
 				padding-top: 4em;
 				text-align:center;
@@ -193,7 +196,7 @@ layout:
 
 {% if jekyll.environment == "development" %}
 	var backend = "http://localhost:8080/geppaequo-web";
-	var millisecondsBeforeRetry = 5000;
+	var millisecondsBeforeRetry = 20000;
 {% else %}
 	var backend = "https://tebaldi051108trial.hanatrial.ondemand.com";
 	var millisecondsBeforeRetry = 20000;
@@ -222,21 +225,22 @@ layout:
 				.progress( function( instance, image ) {
 					var result = image.isLoaded ? 'loaded' : 'broken';
 					console.log( 'image is ' + result + ' for ' + image.img.src );
+					if (!result && !image.img.src.endsWith("spiral.svg")) {
+						if (retry) {
+							var nextTentative = moment().add(millisecondsBeforeRetry, 'milliseconds');
+							console.log('all images loaded, at least one is broken, will retry @ ' + nextTentative.format("h:mm:ss a"));
+							$('#clock').countdown(nextTentative.toDate(), function(event) {
+								$(this).html(event.strftime('<p>cannot connect to image server</p><p>page will reload in %S seconds</p>'));
+							}).on('finish.countdown', function(event) {
+								location.reload();
+								// retry($backgroundHolder);
+							});
+							$('#waitingForBackend').show();
+						}
+					}
 				})
 				.fail( function() {
-					if (retry) {
-						var nextTentative = moment().add(millisecondsBeforeRetry, 'milliseconds');
-						console.log('all images loaded, at least one is broken, will retry @ ' + nextTentative.format("h:mm:ss a"));
-						$('#clock').countdown(nextTentative.toDate(), function(event) {
-							$(this).html(event.strftime('<p>cannot connect to image server</p><p>page will reload in %S seconds</p>'));
-						}).on('finish.countdown', function(event) {
-							location.reload();
-							// retry($backgroundHolder);
-						});
-						$('#waitingForBackend').show();
-					} else {
 						console.log('all images loaded, at least one is broken');
-					}
 				})
 				.done( function( instance ) {
 					console.log('all images successfully loaded');
