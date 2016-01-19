@@ -30,6 +30,9 @@ layout:
 		<meta property="fb:app_id" content="104250825478" />
 		<!-- END Open Graph data -->
 
+		<!-- http://hammerjs.github.io/tips/ -->
+		<meta name="msapplication-tap-highlight" content="no" />
+
 		<title>The Garden of Earthly Delights</title>
 		<meta name="description" content="The Garden of Earthly Delights">
 
@@ -58,20 +61,23 @@ layout:
 				background-color: black;
 			}
 			body {
-				font-size: 48px;
-				color: white;
-				background-color: transparent;
-				position: relative;
 				height: 100%;
+				background-color: transparent;
+				color: white;
+
+				font-size: 48px;
+
+				position: relative;
 				margin: 0;
 				padding: 0;
 				cursor: crosshair;
 				overflow: hidden;
+				// transition: background 2s ease-in-out; // commented out , because flickering, dommage
 			}
 			a {
 				text-decoration:none;
 			}
-			.fa, input {
+			.fa {
 				color: rgba(255, 255, 255, .3);
 				background-color: rgba(0, 0, 0, .3);
 				margin: 5px 5px 5px 5px;
@@ -79,10 +85,8 @@ layout:
 				cursor: pointer;
 				border-radius: 8px;
 				text-align: center;
-				// display: block;
 			}
 			.fa-spinner.fa-spin {
-				// display: none;
 				background-color: transparent;
 			}
 			.fa.hover {
@@ -106,9 +110,9 @@ layout:
 			.middle_middle {
 				position: absolute;
 				top: 50%;
-        		left: 50%;
+				left: 50%;
 				display:block;
-        	}
+			}
 			.bottom_right {
 				position: absolute;
 				bottom: 0;
@@ -120,12 +124,15 @@ layout:
 				left: 0;
 			}
 			#waitingForBackend {
+				color: #999999;
+				background-color: black;
 				margin: 0 auto;
-				padding-top: 1em;
+				padding-top: 4em;
 				text-align:center;
 				font-family: Consolas !important;
 				font-size: 20px;
 				display: none;
+				z-index: 99;
 			}
 			// cf. http://stackoverflow.com/a/24993002/1070215
 			.hover_img a {
@@ -145,30 +152,18 @@ layout:
 			}
 			input[type=range]
 			{
-			    width: 150px;
-			    padding: 5px 0;
-			    background-color: white;
-			    color: white;
-			    opacity: .33;
+				width: 150px;
+				padding: 5px 0;
+				opacity: .33;
 				margin: 5px 5px 5px 5px;
 				padding: 5px 5px 5px 5px;
-			}			
-			input[type=range][orient=vertical]
-			{
-			    writing-mode: bt-lr; /* IE */
-			    -webkit-appearance: slider-vertical; /* WebKit */
-			    height: 200	px;
-			    padding: 0 5px;
-			    background-color: white;
-			    color: white;
-			    opacity: .33;
-			    display:block;
-			}			
+			}
 		</style>
 
 	</head>
 
 	<body style="background-color: transparent;">
+
 		<div id="waitingForBackend"	>
 			<div id="clock"></div>
 		</div>
@@ -185,7 +180,7 @@ layout:
 			<i class="fa fa-github bottom_right"		title="go to github project"></i>
 		</a>
 
-		<input type="range" id="quality" orient="horizontal" class="bottom_left"  min="20" max="100">
+		<input type="range" id="quality" class="fa bottom_left" min="20" max="100">
 
 	</body>
 
@@ -204,22 +199,25 @@ layout:
 	var millisecondsBeforeRetry = 20000;
 {% endif %}
 	$(document).ready(function() {
-		// var myVar;
+		var showSpinner;
 		function displayLoadStart() {
 			console.log('load starts', moment().format("h:mm:ss a"));
 			$('#clock').html('');
-			// myVar = setTimeout(function () {$('.fa-spinner').show();}, 333);
-			$('.fa-spinner').stop().fadeIn(1000)/*.animate({ visibility: "visible"}, 333)*/;
+			showSpinner = setTimeout(function () {
+				$('.fa-spinner').stop().fadeIn(666);
+			}, 333);
 		}
 		function displayLoadFinish() {
-			$('.fa-spinner').stop().fadeOut(200)/*.css({ visibility: "hidden"})*/;
-			// clearTimeout(myVar);
+			$('.fa-spinner').stop().fadeOut(111);
+			clearTimeout(showSpinner);
 			$('.fa').removeClass( "hover" );
 			console.log('load finished', moment().format("h:mm:ss a"));
 		}
+
 		function callImageLoaded($backgroundHolder, retry) {
+
 			console.log("about to call imagesLoaded", moment().format("h:mm:ss a"));
-			$backgroundHolder.imagesLoaded( { background: true, debug: true } )
+			$backgroundHolder.imagesLoaded( { background: true, debug: false } )
 
 				.progress( function( instance, image ) {
 					var result = image.isLoaded ? 'loaded' : 'broken';
@@ -230,7 +228,7 @@ layout:
 						var nextTentative = moment().add(millisecondsBeforeRetry, 'milliseconds');
 						console.log('all images loaded, at least one is broken, will retry @ ' + nextTentative.format("h:mm:ss a"));
 						$('#clock').countdown(nextTentative.toDate(), function(event) {
-							$(this).html(event.strftime('Cannot connect to image server, page will auto-reload in %S seconds.'));
+							$(this).html(event.strftime('<p>cannot connect to image server</p><p>page will reload in %S seconds</p>'));
 						}).on('finish.countdown', function(event) {
 							location.reload();
 							// retry($backgroundHolder);
@@ -249,6 +247,7 @@ layout:
 				})
 			;
 		}
+
 		// cf. https://developer.mozilla.org/en-US/docs/Web/CSS/background IS YOUR FRIEND !!!!
 
 		function loadFullBackground($backgroundHolder) {
@@ -261,17 +260,19 @@ layout:
 			});
 			callImageLoaded($backgroundHolder, loadFullBackground);
 		}
+
 		function loadCroppedBackground($backgroundHolder) {
 			displayLoadStart();
 
 			var cropWidth	= $backgroundHolder.width();
 			var cropHeight	= $backgroundHolder.height();
+
 			$backgroundHolder.css({
 				background:
 					"url(" + backend +
 					"/geppaequo-api/images/v1/crop" +
 					"?url=/geppaequo-api/stnemucod/v1/document/images/bosch-the-garden-of-earthly-delights.jpg" +
-					"&" + (new Date()).getTime() + 
+					"&" + (new Date()).getTime() +
 					"&cropWidth=" + cropWidth +
 					"&cropHeight=" + cropHeight +
 					"&quality=" + $('#quality').val() +
@@ -279,6 +280,7 @@ layout:
 			});
 			callImageLoaded($backgroundHolder, loadCroppedBackground);
 		}
+
 		$( ".fa, input[type=range]" ).hover(
 			function() {
 				$( ".fa, input[type=range]" ).addClass( "hover" );
@@ -287,38 +289,45 @@ layout:
 			}
 		);
 
-		var $backgroundHolder = $('html');
+		var $backgroundHolder = $('body');
+
+		var mc = new Hammer(document.body);
+
+		mc.on("swipe", function(event) {
+			// event.preventDefault();
+			if ($('.fa-spinner').is(":visible")) {
+				console.log("ignored swipe event, spinner is visible");
+				return false;
+			}
+			loadCroppedBackground($backgroundHolder);
+		})
+		.on("tap", function(event) {
+			// event.preventDefault();
+			if ($('.fa-spinner').is(":visible")) {
+				console.log("ignored tap event, spinner is visible");
+				return false;
+			}
+			if (!$(event.target).is('body, .fa-refresh')) {
+				console.log("ignored tap event, not on (body or .fa-refresh)");
+				return false;
+			}
+			loadCroppedBackground($backgroundHolder);
+		})
+			.on("press", function(event) {
+			// event.preventDefault();
+			if ($('.fa-spinner').is(":visible")) {
+				console.log("ignored press event, spinner is visible");
+				return false;
+			}
+			if (!$(event.target).is('body')) {
+				console.log("ignored tap event, not on body");
+				return false;
+			}
+			loadFullBackground($backgroundHolder);
+		});
 
 		loadCroppedBackground($backgroundHolder);
 
-		$('.fa-refresh').on('click', function(event) {
-			// event.preventDefault();
-			loadCroppedBackground($backgroundHolder);
-		});
-		$('.fa-picture-o').on('click', function(event) {
-			event.preventDefault();
-			loadFullBackground($backgroundHolder);
-		});
-
-		var mc = new Hammer(document.body);
-		mc.on("swipe", function(event) {
-			event.preventDefault();
-			loadCroppedBackground($backgroundHolder);
-		});
-		mc.on("tap", function(event) {
-    		// event.preventDefault();
-			if ($(event.target).is('input[type=range]')) {
-        		return false;
-    		}
-			loadCroppedBackground($backgroundHolder);
-		});
-		mc.on("press", function(event) {
-			event.preventDefault();
-			if (!$(event.target).is('body')) {
-        		return false;
-    		}
-			loadFullBackground($backgroundHolder);
-		});
 	});
 
 	</script>
