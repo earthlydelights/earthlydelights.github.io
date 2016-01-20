@@ -301,7 +301,15 @@ layout:
 
 				$backgroundHolder.css({
 					background:
+						/*
 						"url(images/bosch-the-garden-of-earthly-delights.jpg" +
+						*/
+						"url(" + backend +
+						"/geppaequo-api/images/v1/crop" +
+						"?url=/geppaequo-api/stnemucod/v1/document/images/bosch-the-garden-of-earthly-delights.jpg" +
+						"&width=7793" +
+						"&height=4409" +
+						"&quality=" + $('#quality').val() +
 						") center center / contain no-repeat fixed black",
 				});
 				callImageLoaded($backgroundHolder, loadFullBackground);
