@@ -66,6 +66,7 @@ layout:
 				color: white;
 
 				font-size: 48px;
+				font-family: Consolas, "Lucida Console", Monaco, monospace;
 
 				position: relative;
 				margin: 0;
@@ -78,8 +79,8 @@ layout:
 				text-decoration:none;
 			}
 			.fa {
-				color: rgba(255, 255, 255, .3);
-				background-color: rgba(0, 0, 0, .3);
+				color: rgba(255, 255, 255, .25);
+				background-color: rgba(0, 0, 0, .25);
 				margin: 5px 5px 5px 5px;
 				padding: 5px 5px 5px 5px;
 				cursor: pointer;
@@ -89,13 +90,23 @@ layout:
 			.fa-spinner.fa-spin {
 				background-color: transparent;
 			}
-			.fa.hover {
+			.fa.hover,
+			.fa:hover {
 				color: rgba(255, 255, 255, .5);
 				background-color: rgba(0, 0, 0, .5);
 			}
-			.fa:hover {
-				color: rgba(255, 255, 255, .7);
-				background-color: rgba(0, 0, 0, .7);
+			.fa:hover .tooltip {
+			    display: block;
+			}
+			.fa .tooltip {
+			    display: none;
+			    background: rgba(255, 255, 255, .5);
+				color: rgba(0, 0, 0, .7);
+			    position: absolute;
+				font-family: Consolas, "Lucida Console", Monaco, monospace;
+				font-size: 18px;
+				padding: 5px;
+				border-radius: 8px;
 			}
 			.top_right {
 				position: absolute;
@@ -107,12 +118,6 @@ layout:
 				top: 0;
 				left: 0;
 			}
-			.middle_middle {
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				display:block;
-			}
 			.bottom_right {
 				position: absolute;
 				bottom: 0;
@@ -123,6 +128,28 @@ layout:
 				bottom: 0;
 				left: 0;
 			}
+
+			.top_right .tooltip {
+				position: absolute;
+				top: 3.5em;
+				right: 0;
+			}
+			.top_left .tooltip {
+				position: absolute;
+				top: 0;
+				left: 3.5em;
+			}
+			.bottom_right .tooltip {
+				position: absolute;
+				bottom: 0;
+				right: 3.5em;
+			}
+			.bottom_left .tooltip {
+				position: absolute;
+				bottom: 3.5em;
+				left: 0;
+			}
+
 			#clock {
 				color: #999999;
 				background-color: transparent;
@@ -132,7 +159,6 @@ layout:
 				margin: 0 auto;
 				padding-top: 4em;
 				text-align:center;
-				font-family: Consolas !important;
 				font-size: 20px;
 				display: none;
 				z-index: 99;
@@ -173,19 +199,27 @@ layout:
 
 		<img class="fa-spinner fa-spin" style="width:100%; height:100%; " src="images/spiral.svg"/>
 
-		<i class="fa fa-refresh top_left" title="watch another detail"></i>
+		<i class="fa fa-refresh top_left">
+			<span class="tooltip">watch another detail</span>			
+		</i>
 
 		<a href="https://en.wikipedia.org/wiki/The_Garden_of_Earthly_Delights">
-			<i class="fa fa-wikipedia-w top_right"				title="go to wikipedia article"></i>
+			<i class="fa fa-wikipedia-w top_right">
+				<span class="tooltip">go to wikipedia article</span>			
+			</i>
 		</a>
 
 		<a href="https://github.com/earthlydelights/earthlydelights.github.io/blob/master/README.md">
-			<i class="fa fa-github bottom_right"		title="go to github project"></i>
+			<i class="fa fa-github bottom_right">
+				<span class="tooltip">go to github project</span>			
+			</i>
 		</a>
 
-		<input type="range" id="quality" class="fa bottom_left" min="0" max="100">
+		<i class="fa bottom_left">
+			<input type="range" id="quality" min="0" max="100" title="">
+			<span class="tooltip">set image quality</span>			
+		</i>
 
-	</body>
 
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.0/imagesloaded.pkgd.min.js"></script>
@@ -194,6 +228,12 @@ layout:
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.6/hammer.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
 	<script type="text/javascript">
+
+	if (typeof String.prototype.endsWith !== 'function') {
+	    String.prototype.endsWith = function(suffix) {
+	        return this.indexOf(suffix, this.length - suffix.length) !== -1;
+	    };
+	}	
 
 {% if jekyll.environment == "development" %}
 	var backend = "http://localhost:8080/geppaequo-web";
@@ -226,7 +266,7 @@ layout:
 				.progress( function( instance, image ) {
 					var result = image.isLoaded ? 'loaded' : 'broken';
 					console.log( 'image is ' + result + ' for ' + image.img.src );
-					if (!image.isLoaded && !image.img.src.endsWith("spiral.svg")) {
+					if (!image.isLoaded && !(image.img.src.endsWith("spiral.svg"))) {
 						if (retry) {
 							var nextTentative = moment().add(millisecondsBeforeRetry, 'milliseconds');
 							console.log('all images loaded, at least one is broken, will retry @ ' + nextTentative.format("h:mm:ss a"));
@@ -349,4 +389,5 @@ layout:
 
 	</script>
 
+	</body>
 </html>
