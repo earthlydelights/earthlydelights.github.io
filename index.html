@@ -351,6 +351,8 @@ layout:
 
 		var mc = new Hammer(document.body, {
     		recognizers: [
+    				[Hammer.Tap],
+    				[Hammer.Press],
         			[Hammer.Swipe,{ direction: Hammer.DIRECTION_HORIZONTAL }],
     			]
 			});
