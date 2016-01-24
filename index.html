@@ -216,7 +216,7 @@ layout:
 		</a>
 
 		<i class="fa bottom_left">
-			<input type="range" id="quality" min="0" max="100" value="75" title="">
+			<input type="range" id="quality" min="0" max="100" value="66" title="">
 			<span class="tooltip">set image quality</span>			
 		</i>
 
@@ -246,10 +246,9 @@ layout:
 
 	$(document).ready(function() {
 
-		var earthlyDelightsQuality = 75;
 		if (Modernizr.localstorage) {
-			earthlyDelightsQuality = localStorage.getItem("earthlyDelightsQuality") || earthlyDelightsQuality;
-			if (earthlyDelightsQuality != 75) {
+			var earthlyDelightsQuality = localStorage.getItem("earthlyDelightsQuality");
+			if (!(typeof earthlyDelightsQuality === "undefined")) {
 				$('input[type=range]#quality').val(earthlyDelightsQuality);
 			}
 		}
@@ -384,7 +383,7 @@ layout:
 		})
 		$('input[type=range]#quality').on("change", function(ev) {
 
-			earthlyDelightsQuality = $(ev.target).val();
+			var earthlyDelightsQuality = $(ev.target).val();
 			if (Modernizr.localstorage) {
 				localStorage.setItem("earthlyDelightsQuality", earthlyDelightsQuality);
 			}
