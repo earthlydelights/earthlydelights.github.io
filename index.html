@@ -96,13 +96,13 @@ layout:
 				background-color: rgba(0, 0, 0, .5);
 			}
 			.fa:hover .tooltip {
-			    display: block;
+				display: block;
 			}
 			.fa .tooltip {
-			    display: none;
-			    background: rgba(255, 255, 255, .5);
+				display: none;
+				background: rgba(255, 255, 255, .5);
 				color: rgba(0, 0, 0, .7);
-			    position: absolute;
+				position: absolute;
 				font-family: Consolas, "Lucida Console", Monaco, monospace;
 				font-size: 18px;
 				padding: 5px;
@@ -179,7 +179,7 @@ layout:
 			.hover_img:hover a span {
 				display:block;
 			}
-			input[type=range]
+			input[type=range]#quality
 			{
 				width: 80px;
 				padding: 5px 0;
@@ -216,7 +216,7 @@ layout:
 		</a>
 
 		<i class="fa bottom_left">
-			<input type="range" id="quality" min="0" max="100" title="">
+			<input type="range" id="quality" min="0" max="100" value="75" title="">
 			<span class="tooltip">set image quality</span>			
 		</i>
 
@@ -227,12 +227,13 @@ layout:
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.6/hammer.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 	<script type="text/javascript">
 
 	if (typeof String.prototype.endsWith !== 'function') {
-	    String.prototype.endsWith = function(suffix) {
-	        return this.indexOf(suffix, this.length - suffix.length) !== -1;
-	    };
+		String.prototype.endsWith = function(suffix) {
+			return this.indexOf(suffix, this.length - suffix.length) !== -1;
+		};
 	}	
 
 {% if jekyll.environment == "development" %}
@@ -242,7 +243,17 @@ layout:
 	var backend = "https://tebaldi051108trial.hanatrial.ondemand.com";
 	var millisecondsBeforeRetry = 20000;
 {% endif %}
+
 	$(document).ready(function() {
+
+		var earthlyDelightsQuality = 75;
+		if (Modernizr.localstorage) {
+			earthlyDelightsQuality = localStorage.getItem("earthlyDelightsQuality") || earthlyDelightsQuality;
+			if (earthlyDelightsQuality != 75) {
+				$('input[type=range]#quality').val(earthlyDelightsQuality);
+			}
+		}
+
 		var showSpinner;
 		function displayLoadStart() {
 			console.log('load starts', moment().format("h:mm:ss a"));
@@ -309,7 +320,7 @@ layout:
 						"?url=/geppaequo-api/stnemucod/v1/document/images/bosch-the-garden-of-earthly-delights.jpg" +
 						"&width=7793" +
 						"&height=4409" +
-						"&quality=" + $('#quality').val() +
+						"&quality=" + $('input[type=range]#quality').val() +
 						") center center / contain no-repeat fixed black",
 				});
 				callImageLoaded($backgroundHolder, loadFullBackground);
@@ -329,7 +340,7 @@ layout:
 						"&" + (new Date()).getTime() +
 						"&width=" + width +
 						"&height=" + height +
-						"&quality=" + $('#quality').val() +
+						"&quality=" + $('input[type=range]#quality').val() +
 						") center center / auto no-repeat fixed black",
 				});
 				callImageLoaded($backgroundHolder, loadCroppedBackground);
@@ -350,11 +361,11 @@ layout:
 		var $backgroundHolder = $('body');
 
 		var mc = new Hammer(document.body, {
-    		recognizers: [
-    				[Hammer.Tap],
-    				[Hammer.Press],
-        			[Hammer.Swipe,{ direction: Hammer.DIRECTION_HORIZONTAL }],
-    			]
+			recognizers: [
+					[Hammer.Tap],
+					[Hammer.Press],
+					[Hammer.Swipe,{ direction: Hammer.DIRECTION_HORIZONTAL }],
+				]
 			});
 
 		function loadCroppedBackgroundThrottledOnEvent(ev) {
@@ -371,7 +382,12 @@ layout:
 				loadCroppedBackgroundThrottledOnEvent(ev);
 			}
 		})
-		$('input[type=range]').on("change", function(ev) {
+		$('input[type=range]#quality').on("change", function(ev) {
+
+			earthlyDelightsQuality = $(ev.target).val();
+			if (Modernizr.localstorage) {
+				localStorage.setItem("earthlyDelightsQuality", earthlyDelightsQuality);
+			}
 			loadCroppedBackgroundThrottledOnEvent(ev);
 		});		
 		mc.on("swipe", function(ev) {
