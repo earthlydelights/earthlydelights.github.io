@@ -237,7 +237,7 @@ layout:
 	}	
 
 {% if jekyll.environment == "development" %}
-	var backend = "http://localhost:8080/geppaequo-web";
+	var backend = "http://localhost:8080/image-server";
 	var millisecondsBeforeRetry = 20000;
 {% else %}
 	var backend = "https://imageserverp1941866044trial.hanatrial.ondemand.com";
@@ -315,8 +315,8 @@ layout:
 						"url(images/bosch-the-garden-of-earthly-delights.jpg" +
 						*/
 						"url(" + backend +
-						"/geppaequo-api/images/v1/crop" +
-						"?url=/geppaequo-api/stnemucod/v1/document/images/bosch-the-garden-of-earthly-delights.jpg" +
+						"/earthly-delights-garden-api/image/v1/crop" +
+						"?url=/earthly-delights-garden-api/stnemucod/v1/document/images/bosch-the-garden-of-earthly-delights.jpg" +
 						"&width=7793" +
 						"&height=4409" +
 						"&quality=" + $('input[type=range]#quality').val() +
@@ -334,8 +334,8 @@ layout:
 				$backgroundHolder.css({
 					background:
 						"url(" + backend +
-						"/geppaequo-api/images/v1/crop" +
-						"?url=/geppaequo-api/stnemucod/v1/document/images/bosch-the-garden-of-earthly-delights.jpg" +
+						"/earthly-delights-garden-api/image/v1/crop" +
+						"?url=/earthly-delights-garden-api/stnemucod/v1/document/images/bosch-the-garden-of-earthly-delights.jpg" +
 						"&" + (new Date()).getTime() +
 						"&width=" + width +
 						"&height=" + height +
