@@ -210,7 +210,7 @@ layout:
 			<span class="tooltip">watch another detail</span>			
 		</i>
 
-		<a href="https://en.wikipedia.org/wiki/The_Garden_of_Earthly_Delights">
+		<a id="wikipedia" href="https://en.wikipedia.org/wiki/The_Garden_of_Earthly_Delights">
 			<i class="fa fa-wikipedia-w top_right">
 				<span class="tooltip">go to wikipedia article</span>			
 			</i>
@@ -247,12 +247,16 @@ layout:
 	var backend = "http://localhost:8080/image-server";
 	if(window.location.hash) {
 		console.log("window.location.hash is:", window.location.hash);
+		$('head title').text("The Haywain Triptych");
+		$('a#wikipedia').attr({href:"https://en.wikipedia.org/wiki/The_Haywain_Triptych"});
 	}
 	var millisecondsBeforeRetry = 10000;
 {% else %}
 	var backend = "https://imageserverp1941866044trial.hanatrial.ondemand.com";
 	if(window.location.hash && window.location.hash=="#2") {
 		var backend = "https://imageserverp1941872433trial.hanatrial.ondemand.com";
+		$('head title').text("The Haywain Triptych");
+		$('a#wikipedia').attr({href:"https://en.wikipedia.org/wiki/The_Haywain_Triptych"});
 	}
 	var millisecondsBeforeRetry = 20000;
 {% endif %}
