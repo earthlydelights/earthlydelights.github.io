@@ -245,9 +245,15 @@ layout:
 
 {% if jekyll.environment == "development" %}
 	var backend = "http://localhost:8080/image-server";
-	var millisecondsBeforeRetry = 20000;
+	if(window.location.hash) {
+		console.log("window.location.hash is:", window.location.hash);
+	}
+	var millisecondsBeforeRetry = 10000;
 {% else %}
 	var backend = "https://imageserverp1941866044trial.hanatrial.ondemand.com";
+	if(window.location.hash && window.location.hash=="#2") {
+		var backend = "https://imageserverp1941872433trial.hanatrial.ondemand.com";
+	}
 	var millisecondsBeforeRetry = 20000;
 {% endif %}
 
@@ -318,14 +324,10 @@ layout:
 
 				$backgroundHolder.css({
 					background:
-						/*
-						"url(images/bosch-the-garden-of-earthly-delights.jpg" +
-						*/
 						"url(" + backend +
 						"/earthly-delights-garden-api/image/v1/crop" +
-						"?url=/earthly-delights-garden-api/stnemucod/v1/document/images/bosch-the-garden-of-earthly-delights.jpg" +
-						"&width=7793" +
-						"&height=4409" +
+						"?width=10000" +
+						"&height=10000" +
 						"&quality=" + $('input[type=range]#quality').val() +
 						") center center / contain no-repeat fixed black",
 				});
@@ -342,11 +344,10 @@ layout:
 					background:
 						"url(" + backend +
 						"/earthly-delights-garden-api/image/v1/crop" +
-						"?url=/earthly-delights-garden-api/stnemucod/v1/document/images/bosch-the-garden-of-earthly-delights.jpg" +
-						"&" + (new Date()).getTime() +
-						"&width=" + width +
+						"?width=" + width +
 						"&height=" + height +
 						"&quality=" + $('input[type=range]#quality').val() +
+						"&" + (new Date()).getTime() +
 						") center center / auto no-repeat fixed black",
 				});
 				callImageLoaded($backgroundHolder, loadCroppedBackground);
