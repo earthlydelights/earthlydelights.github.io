@@ -1,1 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% if page.open_graph %}
+<!-- Open Graph Template -->
+{% include {{ page.open_graph }} %}
+{% endif %}
+
+<!-- http://hammerjs.github.io/tips/ -->
+<meta name="msapplication-tap-highlight" content="no" />
+
+<title>{{ page.title }}</title>
+<meta name="description" content="{{ page.title }}">
+
+<link rel="canonical" href="{{ site.github.url }}{{ page.url | replace:'index.html',''}}">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<!-- http://realfavicongenerator.net/ -->
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png?v=A00l8zgEGM">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png?v=A00l8zgEGM">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png?v=A00l8zgEGM">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png?v=A00l8zgEGM">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png?v=A00l8zgEGM">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png?v=A00l8zgEGM">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png?v=A00l8zgEGM">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png?v=A00l8zgEGM">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png?v=A00l8zgEGM">
+<link rel="icon" type="image/png" href="/favicon-32x32.png?v=A00l8zgEGM" sizes="32x32">
+<link rel="icon" type="image/png" href="/android-chrome-192x192.png?v=A00l8zgEGM" sizes="192x192">
+<link rel="icon" type="image/png" href="/favicon-96x96.png?v=A00l8zgEGM" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicon-16x16.png?v=A00l8zgEGM" sizes="16x16">
+<link rel="manifest" href="/manifest.json?v=A00l8zgEGM">
+<link rel="mask-icon" href="/safari-pinned-tab.svg?v=A00l8zgEGM" color="#5bbad5">
+<link rel="shortcut icon" href="/favicon.ico?v=A00l8zgEGM">
+<meta name="apple-mobile-web-app-title" content="{{ page.title }}">
+<meta name="application-name" content="{{ page.title }}">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-TileImage" content="/mstile-144x144.png?v=A00l8zgEGM">
+<meta name="theme-color" content="#ffffff">
+
+<link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body style="background-color: transparent;">
+
+<div id="waitingForBackend"	>
+	<div id="clock"></div>
+</div>
+
+<img class="fa-spinner fa-spin" style="width:100%; height:100%; " src="images/spiral.svg"/>
+
+<i class="fa fa-refresh top_left">
+	<span class="tooltip">watch another detail</span>			
+</i>
+
+<a id="wikipedia" href="{{ page.wikipedia }}">
+	<i class="fa fa-wikipedia-w top_right">
+		<span class="tooltip">go to wikipedia article</span>			
+	</i>
+</a>
+
+<a href="https://github.com/earthlydelights/earthlydelights.github.io/blob/master/README.md">
+	<i class="fa fa-github bottom_right">
+		<span class="tooltip">go to github project</span>			
+	</i>
+</a>
+
+<i class="fa bottom_left">
+	<input type="range" id="quality" min="0" max="100" value="66" title="">
+	<span class="tooltip">set image quality</span>			
+</i>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.0/imagesloaded.pkgd.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.1.0/jquery.countdown.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.6/hammer.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+<script type="text/javascript" src="js/the_garden_of_earthly_delights.js"></script>
+
+<script type="text/javascript">
+TheGardenOfEarthlyDelights.init( "{{ page.imageserver }}" );
+</script>
+
 {{ content }}
+
+{% include google_analytics.html %}
+
+</body>
+</html>
