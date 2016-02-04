@@ -7,9 +7,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-{% if page.open_graph_include %}
-<!-- Open Graph Include -->
-{% include {{ page.open_graph_include }} %}
+{% if page.og %}
+{% include {{page.og}} %}
 {% endif %}
 
 <!-- http://hammerjs.github.io/tips/ -->
