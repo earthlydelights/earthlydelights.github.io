@@ -5,17 +5,17 @@ Explore the world of ergot-induced delirium and relive the magic of fifteenth-ce
 
 ## The Garden of Earthly Delights
 
-[![random excerpt from The Garden of Earthly Delights](https://imageserverp1941866044trial.hanatrial.ondemand.com/earthly-delights-garden-api/image/v1/crop?width=324&height=200&quality=100)](http://earthlydelights.garden/)
+[<img src="https://imageserverp1941866044trial.hanatrial.ondemand.com/earthly-delights-garden-api/image/v1/crop?width=324&height=200&quality=100" width="324" height="200">](http://earthlydelights.garden/)
 
 ## The Haywain Triptych
 
-[![random excerpt from The Haywain Triptych](https://imageserverp1941872433trial.hanatrial.ondemand.com/earthly-delights-garden-api/image/v1/crop?width=324&height=200&quality=100)](http://earthlydelights.garden/haywain.triptych.html)
+[<img src="https://imageserverp1941872433trial.hanatrial.ondemand.com/earthly-delights-garden-api/image/v1/crop?width=324&height=200&quality=100" width="324" height="200">](http://earthlydelights.garden/haywain.triptych.html)
 
 ## The Last Judgment
 
 _Copy attributed to [Lucas Cranach the Elder](https://en.wikipedia.org/wiki/Lucas_Cranach_the_Elder)._
 
-[![random excerpt from The Last Judgment](https://imageserverp1630844092trial.hanatrial.ondemand.com/earthly-delights-garden-api/image/v1/crop?width=324&height=200&quality=100)](http://earthlydelights.garden/last.judgment.html)
+[<img src="https://imageserverp1630844092trial.hanatrial.ondemand.com/earthly-delights-garden-api/image/v1/crop?width=324&height=200&quality=100" width="324" height="200">](http://earthlydelights.garden/last.judgment.html)
 
 ---
 
