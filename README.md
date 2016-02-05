@@ -20,4 +20,4 @@ _Copy attributed to [Lucas Cranach the Elder](https://en.wikipedia.org/wiki/Luca
 
 ---
 
-(source code for image servers is [here](https://github.com/earthlydelights/image-server))
+(backend source code is [here](https://github.com/earthlydelights/image-server))
