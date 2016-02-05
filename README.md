@@ -6,12 +6,14 @@ Explore the world of ergot-induced delirium and relive the magic of fifteenth-ce
 
 ### [The Garden of Earthly Delights](http://earthlydelights.garden/) 
 
-[p1941866044](https://imageserverp1941866044trial.hanatrial.ondemand.com/earthly-delights-garden-api/image/v1/points)
+[image server @ p1941866044](https://imageserverp1941866044trial.hanatrial.ondemand.com/earthly-delights-garden-api/image/v1/points)
 
 ### [The Haywain Triptych](http://earthlydelights.garden/haywain.triptych.html) 
 
-[p1941872433](https://imageserverp1941872433trial.hanatrial.ondemand.com/earthly-delights-garden-api/image/v1/points)
+[image server @ p1941872433](https://imageserverp1941872433trial.hanatrial.ondemand.com/earthly-delights-garden-api/image/v1/points)
 
 ### [The Last Judgment](http://earthlydelights.garden/last.judgment.html) 
 
-[p1630844092](https://imageserverp1630844092trial.hanatrial.ondemand.com/earthly-delights-garden-api/image/v1/points)
+_Copy attributed to Lucas Cranach the Elder._
+
+[image server @ p1630844092](https://imageserverp1630844092trial.hanatrial.ondemand.com/earthly-delights-garden-api/image/v1/points)
