@@ -1,7 +1,6 @@
 # http://earthlydelights.garden/
 
 Zoom in on the mesmerizing details of [Hieronymus Bosch](https://en.wikipedia.org/wiki/Hieronymus_Bosch)'s most widely acclaimed paintings with this intuitive lightweight app. 
-
 Explore the world of ergot-induced delirium and relive the magic of fifteenth-century Flandres thanks to this exclusive tool that lets you peek inside the twisted fantasy of the often imitated but never equalled Master.
 
 ## The Garden of Earthly Delights
