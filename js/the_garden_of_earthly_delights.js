@@ -85,8 +85,8 @@ var TheGardenOfEarthlyDelights = (function() {
 					background:
 						"url(" + backend +
 						"/earthly-delights-garden-api/image/v1/crop" +
-						"?width=10000" +
-						"&height=10000" +
+						"?width=100000" +
+						"&height=100000" +
 						"&quality=" + $('input[type=range]#quality').val() +
 						") center center / contain no-repeat fixed black",
 				});
