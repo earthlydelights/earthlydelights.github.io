@@ -7,7 +7,7 @@ body {
 	background-color: transparent;
 	color: white;
 
-	font-size: 48px;
+	font-size: 32px;
 	font-family: Consolas, "Lucida Console", Monaco, monospace;
 
 	position: relative;
@@ -124,8 +124,17 @@ a {
 input[type=range]#quality
 {
 	width: 80px;
-	padding: 5px 0;
+    height: 10px;
+	padding: 0;
 	opacity: .33;
 	margin: 5px 5px 5px 5px;
 	padding: 5px 5px 5px 5px;
+}
+input[type=range][orient=vertical]#quality
+{
+    writing-mode: bt-lr; /* IE */
+    -webkit-appearance: slider-vertical; /* WebKit */
+	width: 10px;
+    height: 80px;
+    padding: 0;
 }
