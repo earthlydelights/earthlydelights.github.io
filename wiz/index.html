@@ -5,126 +5,125 @@ layout:
 <!DOCTYPE html>
 <html>
 <head>
-<!-- libs.html -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.min.js"></script>
+
 <style>
 body {
-  font-family: Sans-Serif;
-}
-div[style="display:table-cell"] {
-	margin: 0 1em  1em 0;
-	padding: 0 1em  1em 0;
+ font-family: Sans-Serif;
 }
 .orange {
 	color: #FF8C00;
 }
-</style>
-</head>
-<body>
-<div style="display:table">
-<h1>libs</h1>
-<div style="display:table-row">
-<h2>links</h2>
-</div>
-{% for item in site.data.links %}
-<div style="display:table-row">
-<div style="display:table-cell">{{ item.name }}
-</div>
-<div id="{{ item.name }}_version" style="display:table-cell">{{ item.version }}</div>
-<div style="display:table-cell">
-<a href="//cdnjs.cloudflare.com/ajax/libs/{{ item.name }}/{{ item.version }}/css/{{ item.filename }}">
-{{ item.filename }}
-</a>
-</div>
-<div style="display:table-cell">
-<a id="{{ item.name }}" href="https://api.cdnjs.com/libraries?search={{ item.name }}&amp;fields=version">
-</a>
-</div>
-</div>
-{% endfor %}
-<div style="display:table-row">
-<h2>scripts</h2>
-</div>
-{% for item in site.data.scripts %}
-<div style="display:table-row">
-<div style="display:table-cell">{{ item.name }}
-</div>
-<div  id="{{ item.name }}_version" style="display:table-cell">{{ item.version }}</div>
-<div style="display:table-cell">
-<a href="//cdnjs.cloudflare.com/ajax/libs/{{ item.name }}/{{ item.version }}/{{ item.filename }}">
-{{ item.filename }}
-</a>
-</div>
-<div style="display:table-cell">
-<a id="{{ item.name }}" href="https://api.cdnjs.com/libraries?search={{ item.name }}&amp;fields=version">
-</a>
-</div>
-</div>
-{% endfor %}
-</div>
-<script type="text/javascript">
-function load(url, callback, errorCallback) {
-  var xhr;
-  if(typeof XMLHttpRequest !== 'undefined') xhr = new XMLHttpRequest();
-  else {
-    var versions = ["MSXML2.XmlHttp.5.0", 
-         "MSXML2.XmlHttp.4.0",
-         "MSXML2.XmlHttp.3.0", 
-         "MSXML2.XmlHttp.2.0",
-         "Microsoft.XmlHttp"];
-    for(var i = 0, len = versions.length; i < len; i++) {
-    try {
-      xhr = new ActiveXObject(versions[i]);
-      break;
-    }
-      catch(e){}
-    } // end for
-  }
-  xhr.onreadystatechange = ensureReadiness;
-  function ensureReadiness() {
-    if(xhr.readyState < 4) {
-      return;
-    }
-    if(xhr.status !== 200) {
-      errorCallback();
-      return;
-    }
-    // all is well  
-    if(xhr.readyState === 4) {
-      callback(xhr);
-    } else {
-      errorCallback();
-    }
-  }
-  xhr.open('GET', url, true);
-  xhr.send('');
+section {
+	display:table;
 }
+section > div {
+	display:table-row;
+}
+section > div> div {
+	display:table-cell;
+	margin: 0 1em 1em 0;
+	padding: 0 1em 1em 0;
+}
+</style>
+
+</head>
+
+<body>
+
+<section>
+	<h1>libs</h1>
+	<div>
+		<h2>links</h2>
+	</div>{% for item in site.data.links %}
+	<div>
+		<div>{{ item.name }}</div>
+		<div id="{{ item.name }}_version">{{ item.version }}</div>
+		<div><a href="//cdnjs.cloudflare.com/ajax/libs/{{ item.name }}/{{ item.version }}/css/{{ item.filename }}">{{ item.filename }}</a></div>
+		<div><a id="{{ item.name }}" href="https://api.cdnjs.com/libraries?search={{ item.name }}&amp;fields=version"></a></div>
+	</div>{% endfor %}
+	<div>
+		<h2>scripts</h2>
+	</div>{% for item in site.data.scripts %}
+	<div>
+		<div>{{ item.name }}</div>
+		<div id="{{ item.name }}_version">{{ item.version }}</div>
+		<div><a href="//cdnjs.cloudflare.com/ajax/libs/{{ item.name }}/{{ item.version }}/{{ item.filename }}">{{ item.filename }}</a></div>
+		<div><a id="{{ item.name }}" href="https://api.cdnjs.com/libraries?search={{ item.name }}&amp;fields=version"></a></div>
+	</div>{% endfor %}
+</section>
+
+<script type="text/javascript">
+
+function load(url, callback, errorCallback) {
+	var xhr;
+	if(typeof XMLHttpRequest !== 'undefined') {
+		xhr = new XMLHttpRequest();
+	} else {
+		var versions = [
+			"MSXML2.XmlHttp.5.0", 
+			"MSXML2.XmlHttp.4.0",
+			"MSXML2.XmlHttp.3.0", 
+			"MSXML2.XmlHttp.2.0",
+			"Microsoft.XmlHttp"
+		];
+		for(var i = 0, len = versions.length; i < len; i++) {
+			try {
+				xhr = new ActiveXObject(versions[i]);
+				break;
+			} catch(e){}
+		} // end for
+	}
+
+	xhr.onreadystatechange = ensureReadiness;
+	
+	function ensureReadiness() {
+		if(xhr.readyState < 4) {
+			return;
+		}
+		if(xhr.status !== 200) {
+			errorCallback();
+		return;
+		}
+		// all is well 
+		if(xhr.readyState === 4) {
+			callback(xhr);
+		} else {
+			errorCallback();
+		}
+	}
+
+	xhr.open('GET', url, true);
+	xhr.send('');
+}
+
 function loadVersion(key) {
-	var element = document.getElementById(key);
+	var element         = document.getElementById(key);
+	var attribute       = element.getAttribute("href");
 	var element_version = document.getElementById(key+"_version");
-	var attribute = element.getAttribute("href");
-	load(attribute, 
+
+	load(
+		attribute, 
 		function(xhr) {
 			var data = JSON.parse(xhr.responseText);
-			console.log(data.results);
-			var qwe = _.find(data.results, function(o) { 
+			var found = _.find(data.results, function(o) { 
 				return o.name === key; 
 			});
-			console.log(qwe.version);
-			var txt = document.createTextNode(qwe.version);
+			var txt = document.createTextNode(found.version);
 			element.appendChild(txt);
-			if (qwe.version != element_version.textContent) {
-			element_version.className = "orange";
+			if (found.version != element_version.textContent) {
+				element_version.className = "orange";
 			}
 		},
 		function() {
-		});
+		}
+	);
 }
 {% for item in site.data.links %}
-	loadVersion("{{item.name}}")
-{% endfor %}
+loadVersion("{{item.name}}");{% endfor %}
 {% for item in site.data.scripts %}
-	loadVersion("{{item.name}}")
-{% endfor %}
+loadVersion("{{item.name}}");{% endfor %}
+
 </script>
 </body>
