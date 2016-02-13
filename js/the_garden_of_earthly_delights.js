@@ -63,7 +63,7 @@ var TheGardenOfEarthlyDelights = (function() {
 					}
 				})
 				.fail( function() {
-						console.log('all images loaded, at least one is broken');
+					console.log('all images loaded, at least one is broken');
 				})
 				.done( function( instance ) {
 					console.log('all images successfully loaded');

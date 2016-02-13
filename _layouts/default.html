@@ -7,9 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-{% if page.og %}
-{% include {{page.og}} %}
-{% endif %}
+{% if page.og %}{% include {{page.og}} %}{% endif %}
 
 <!-- http://hammerjs.github.io/tips/ -->
 <meta name="msapplication-tap-highlight" content="no" />
@@ -18,7 +16,9 @@
 <meta name="description" content="{{ page.title }}">
 
 <link rel="canonical" href="{{ site.github.url }}{{ page.url | replace:'index.html',''}}">
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+
+{% include 3rd_party_links.html %}
+<link rel="stylesheet" href="css/styles.css">
 
 <!-- http://realfavicongenerator.net/ -->
 <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png?v=A00l8zgEGM">
@@ -42,8 +42,6 @@
 <meta name="msapplication-TileColor" content="#da532c">
 <meta name="msapplication-TileImage" content="/mstile-144x144.png?v=A00l8zgEGM">
 <meta name="theme-color" content="#ffffff">
-
-<link rel="stylesheet" href="css/styles.css">
 
 </head>
 
@@ -76,14 +74,7 @@
 	</i>
 </a>
 
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.0/imagesloaded.pkgd.min.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.1.0/jquery.countdown.min.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.6/hammer.min.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-
+{% include 3rd_party_scripts.html %}
 <script type="text/javascript" src="js/the_garden_of_earthly_delights.js"></script>
 
 <script type="text/javascript">
