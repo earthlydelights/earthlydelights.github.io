@@ -48,30 +48,30 @@
 <body style="background-color: transparent;">
 
 <div id="waitingForBackend"	>
-	<div id="clock"></div>
+  <div id="clock"></div>
 </div>
 
 <img class="fa-spinner fa-spin" style="width:100%; height:100%; " src="images/spiral.svg"/>
 
 <i class="fa fa-refresh top_left">
-	<span class="tooltip">watch another detail</span>			
+  <span class="tooltip">watch another detail</span>
 </i>
 
 <a id="wikipedia" href="{{ page.wikipedia }}">
-	<i class="fa fa-wikipedia-w top_right">
-		<span class="tooltip">go to wikipedia article</span>			
-	</i>
+  <i class="fa fa-wikipedia-w top_right">
+    <span class="tooltip">go to wikipedia article</span>
+  </i>
 </a>
 
 <i class="fa bottom_right">
-	<input type="range" orient="vertical" id="quality" min="0" max="100" value="100" title="">
-	<span class="tooltip">set image quality</span>			
+  <input type="range" orient="vertical" id="quality" min="0" max="100" value="100" title="">
+  <span class="tooltip">set image quality</span>
 </i>
 
 <a href="https://github.com/earthlydelights/earthlydelights.github.io/blob/master/README.md">
-	<i class="fa fa-github bottom_left">
-		<span class="tooltip">go to github project</span>			
-	</i>
+  <i class="fa fa-github bottom_left">
+    <span class="tooltip">go to github project</span>
+  </i>
 </a>
 
 {% include 3rd_party_scripts.html %}

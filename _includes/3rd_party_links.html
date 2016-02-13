@@ -1,3 +1,2 @@
-<!-- _include/3rd_party_links.html generated from _data/links.json-->
-{% for link in site.data.links %}<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/{{ link.name }}/{{ link.version }}/css/{{ link.filename }}">
-{% endfor %}
+<!-- _include/3rd_party_links.html generated from _data/links.json-->{% for link in site.data.links %}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/{{ link.name }}/{{ link.version }}/css/{{ link.filename }}">{% endfor %}
