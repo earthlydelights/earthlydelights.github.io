@@ -84,7 +84,7 @@ var TheGardenOfEarthlyDelights = (function() {
 				$backgroundHolder.css({
 					background:
 						"url(" + backend +
-						"/earthly-delights-garden-api/image/v1/crop" +
+						"/api/earthly-delights-garden/image/v1/crop" +
 						"?width=100000" +
 						"&height=100000" +
 						"&quality=" + $('input[type=range]#quality').val() +
@@ -102,7 +102,7 @@ var TheGardenOfEarthlyDelights = (function() {
 				$backgroundHolder.css({
 					background:
 						"url(" + backend +
-						"/earthly-delights-garden-api/image/v1/crop" +
+						"/api/earthly-delights-garden/image/v1/crop" +
 						"?width=" + width +
 						"&height=" + height +
 						"&quality=" + $('input[type=range]#quality').val() +
