@@ -2,3 +2,4 @@ title: Christophe Thiebaud
 author: Christophe Thiebaud
 baseurl: ""
 encoding: utf-8
+gems: ['jekyll-sitemap']
