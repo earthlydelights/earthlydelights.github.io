@@ -18,7 +18,7 @@ var TheGardenOfEarthlyDelights = (function() {
 
 	$(document).ready(function() {
 
-		if (Modernizr.localstorage) {
+		if (true /*Modernizr.localstorage*/) {
 			var earthlyDelightsQuality = localStorage.getItem("earthlyDelightsQuality");
 			if (!(typeof earthlyDelightsQuality === "undefined")) {
 				$('input[type=range]#quality').val(earthlyDelightsQuality);
@@ -151,7 +151,7 @@ var TheGardenOfEarthlyDelights = (function() {
 		$('input[type=range]#quality').on("change", function(ev) {
 
 			var earthlyDelightsQuality = $(ev.target).val();
-			if (Modernizr.localstorage) {
+			if (true /* Modernizr.localstorage*/) {
 				localStorage.setItem("earthlyDelightsQuality", earthlyDelightsQuality);
 			}
 			loadCroppedBackgroundThrottledOnEvent(ev);
