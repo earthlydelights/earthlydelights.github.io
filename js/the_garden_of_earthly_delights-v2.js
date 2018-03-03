@@ -96,8 +96,8 @@ var TheGardenOfEarthlyDelights = (function() {
 			function loadCroppedBackground($backgroundHolder) {
 				displayLoadStart();
 
-				var width	= $backgroundHolder.width();
-				var height	= $backgroundHolder.height();
+				var width	= Math.round($backgroundHolder.width());
+				var height	= Math.round($backgroundHolder.height());
 
 				$backgroundHolder.css({
 					background:
